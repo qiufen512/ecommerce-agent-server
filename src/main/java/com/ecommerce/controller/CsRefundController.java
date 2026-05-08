@@ -3,14 +3,19 @@ package com.ecommerce.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.CsRefund;
+import com.ecommerce.model.vo.refund.CsRefundApplyVO;
+import com.ecommerce.model.vo.refund.CsRefundApproveVO;
 import com.ecommerce.service.CsRefundService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  * 退款控制器
@@ -19,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/refund")
 @RequiredArgsConstructor
+@Validated
 public class CsRefundController {
 
     private final CsRefundService refundService;
@@ -35,20 +41,16 @@ public class CsRefundController {
     /** 发起退款 */
     @ApiOperation("发起退款申请")
     @PostMapping("/apply")
-    public Result<CsRefund> applyRefund(@ApiParam("订单号") @RequestParam String orderNo,
-                                       @ApiParam("用户ID") @RequestParam String userId,
-                                       @ApiParam("退款原因") @RequestParam(required = false) String reason) {
-        CsRefund refund = refundService.applyRefund(orderNo, userId, reason);
+    public Result<CsRefund> applyRefund(@Valid @RequestBody CsRefundApplyVO vo) {
+        CsRefund refund = refundService.applyRefund(vo.getOrderNo(), vo.getUserId(), vo.getReason());
         return Result.success(refund);
     }
 
     /** 审核退款 */
     @ApiOperation("审核退款")
     @PostMapping("/approve")
-    public Result<CsRefund> approveRefund(@ApiParam("退款单号") @RequestParam String refundNo,
-                                         @ApiParam("是否通过") @RequestParam boolean approved,
-                                         @ApiParam("拒绝原因") @RequestParam(required = false) String rejectReason) {
-        CsRefund refund = refundService.approveRefund(refundNo, approved, rejectReason);
+    public Result<CsRefund> approveRefund(@Valid @RequestBody CsRefundApproveVO vo) {
+        CsRefund refund = refundService.approveRefund(vo.getRefundNo(), vo.getApproved(), vo.getRejectReason());
         return Result.success(refund);
     }
 

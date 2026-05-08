@@ -4,14 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.CsTicket;
+import com.ecommerce.model.vo.ticket.CsTicketCreateVO;
+import com.ecommerce.model.vo.ticket.CsTicketQueryVO;
+import com.ecommerce.model.vo.ticket.CsTicketUpdateVO;
 import com.ecommerce.service.CsTicketService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  * 工单管理控制器
@@ -20,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ticket")
 @RequiredArgsConstructor
+@Validated
 public class CsTicketController {
 
     private final CsTicketService ticketService;
@@ -27,7 +35,9 @@ public class CsTicketController {
     /** 创建工单 */
     @ApiOperation("创建工单")
     @PostMapping
-    public Result<?> create(@RequestBody CsTicket ticket) {
+    public Result<?> create(@Valid @RequestBody CsTicketCreateVO vo) {
+        CsTicket ticket = new CsTicket();
+        BeanUtils.copyProperties(vo, ticket);
         boolean success = ticketService.save(ticket);
         return success ? Result.success() : Result.fail("创建工单失败");
     }
@@ -77,15 +87,37 @@ public class CsTicketController {
     @ApiOperation("分页查询工单列表")
     @GetMapping("/page")
     public Result<Page<CsTicket>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size) {
-        Page<CsTicket> page = ticketService.page(new Page<>(current, size));
+                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+                                      CsTicketQueryVO queryVO) {
+        LambdaQueryWrapper<CsTicket> wrapper = new LambdaQueryWrapper<>();
+        if (queryVO.getTicketId() != null) {
+            wrapper.eq(CsTicket::getTicketId, queryVO.getTicketId());
+        }
+        if (queryVO.getSessionId() != null) {
+            wrapper.eq(CsTicket::getSessionId, queryVO.getSessionId());
+        }
+        if (queryVO.getIntent() != null) {
+            wrapper.eq(CsTicket::getIntent, queryVO.getIntent());
+        }
+        if (queryVO.getOrderNo() != null) {
+            wrapper.eq(CsTicket::getOrderNo, queryVO.getOrderNo());
+        }
+        if (queryVO.getStatus() != null) {
+            wrapper.eq(CsTicket::getStatus, queryVO.getStatus());
+        }
+        if (queryVO.getHumanFlag() != null) {
+            wrapper.eq(CsTicket::getHumanFlag, queryVO.getHumanFlag());
+        }
+        Page<CsTicket> page = ticketService.page(new Page<>(current, size), wrapper);
         return Result.success(page);
     }
 
     /** 更新工单 */
     @ApiOperation("更新工单")
     @PutMapping
-    public Result<?> update(@RequestBody CsTicket ticket) {
+    public Result<?> update(@Valid @RequestBody CsTicketUpdateVO vo) {
+        CsTicket ticket = new CsTicket();
+        BeanUtils.copyProperties(vo, ticket);
         boolean success = ticketService.updateById(ticket);
         return success ? Result.success() : Result.fail("更新工单失败");
     }

@@ -4,14 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.CsOrder;
+import com.ecommerce.model.vo.order.CsOrderCreateVO;
+import com.ecommerce.model.vo.order.CsOrderQueryVO;
+import com.ecommerce.model.vo.order.CsOrderUpdateVO;
 import com.ecommerce.service.CsOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  * 客户订单控制器
@@ -20,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
+@Validated
 public class CsOrderController {
 
     private final CsOrderService orderService;
@@ -27,7 +35,9 @@ public class CsOrderController {
     /** 创建订单 */
     @ApiOperation("创建订单")
     @PostMapping
-    public Result<?> create(@RequestBody CsOrder order) {
+    public Result<?> create(@Valid @RequestBody CsOrderCreateVO vo) {
+        CsOrder order = new CsOrder();
+        BeanUtils.copyProperties(vo, order);
         boolean success = orderService.save(order);
         return success ? Result.success() : Result.fail("创建订单失败");
     }
@@ -64,15 +74,31 @@ public class CsOrderController {
     @ApiOperation("分页查询订单列表")
     @GetMapping("/page")
     public Result<Page<CsOrder>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size) {
-        Page<CsOrder> page = orderService.page(new Page<>(current, size));
+                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+                                      CsOrderQueryVO queryVO) {
+        LambdaQueryWrapper<CsOrder> wrapper = new LambdaQueryWrapper<>();
+        if (queryVO.getOrderNo() != null) {
+            wrapper.like(CsOrder::getOrderNo, queryVO.getOrderNo());
+        }
+        if (queryVO.getUserId() != null) {
+            wrapper.eq(CsOrder::getUserId, queryVO.getUserId());
+        }
+        if (queryVO.getStatus() != null) {
+            wrapper.eq(CsOrder::getStatus, queryVO.getStatus());
+        }
+        if (queryVO.getLogisticsNo() != null) {
+            wrapper.eq(CsOrder::getLogisticsNo, queryVO.getLogisticsNo());
+        }
+        Page<CsOrder> page = orderService.page(new Page<>(current, size), wrapper);
         return Result.success(page);
     }
 
     /** 更新订单 */
     @ApiOperation("更新订单")
     @PutMapping
-    public Result<?> update(@RequestBody CsOrder order) {
+    public Result<?> update(@Valid @RequestBody CsOrderUpdateVO vo) {
+        CsOrder order = new CsOrder();
+        BeanUtils.copyProperties(vo, order);
         boolean success = orderService.updateById(order);
         return success ? Result.success() : Result.fail("更新订单失败");
     }

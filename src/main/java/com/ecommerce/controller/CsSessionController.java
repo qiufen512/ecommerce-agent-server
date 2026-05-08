@@ -4,12 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.CsSession;
+import com.ecommerce.model.vo.session.CsSessionCreateVO;
+import com.ecommerce.model.vo.session.CsSessionQueryVO;
+import com.ecommerce.model.vo.session.CsSessionUpdateVO;
 import com.ecommerce.service.CsSessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 客服会话控制器
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/session")
 @RequiredArgsConstructor
+@Validated
 public class CsSessionController {
 
     private final CsSessionService sessionService;
@@ -25,7 +33,9 @@ public class CsSessionController {
     /** 创建会话 */
     @ApiOperation("创建会话")
     @PostMapping
-    public Result<?> create(@RequestBody CsSession session) {
+    public Result<?> create(@Valid @RequestBody CsSessionCreateVO vo) {
+        CsSession session = new CsSession();
+        BeanUtils.copyProperties(vo, session);
         boolean success = sessionService.save(session);
         return success ? Result.success() : Result.fail("创建会话失败");
     }
@@ -57,15 +67,34 @@ public class CsSessionController {
     @ApiOperation("分页查询会话列表")
     @GetMapping("/page")
     public Result<Page<CsSession>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                        @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size) {
-        Page<CsSession> page = sessionService.page(new Page<>(current, size));
+                                        @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+                                        CsSessionQueryVO queryVO) {
+        LambdaQueryWrapper<CsSession> wrapper = new LambdaQueryWrapper<>();
+        if (queryVO.getSessionId() != null) {
+            wrapper.like(CsSession::getSessionId, queryVO.getSessionId());
+        }
+        if (queryVO.getUserId() != null) {
+            wrapper.eq(CsSession::getUserId, queryVO.getUserId());
+        }
+        if (queryVO.getChannel() != null) {
+            wrapper.eq(CsSession::getChannel, queryVO.getChannel());
+        }
+        if (queryVO.getStatus() != null) {
+            wrapper.eq(CsSession::getStatus, queryVO.getStatus());
+        }
+        if (queryVO.getAgentId() != null) {
+            wrapper.eq(CsSession::getAgentId, queryVO.getAgentId());
+        }
+        Page<CsSession> page = sessionService.page(new Page<>(current, size), wrapper);
         return Result.success(page);
     }
 
     /** 更新会话 */
     @ApiOperation("更新会话")
     @PutMapping
-    public Result<?> update(@RequestBody CsSession session) {
+    public Result<?> update(@Valid @RequestBody CsSessionUpdateVO vo) {
+        CsSession session = new CsSession();
+        BeanUtils.copyProperties(vo, session);
         boolean success = sessionService.updateById(session);
         return success ? Result.success() : Result.fail("更新会话失败");
     }

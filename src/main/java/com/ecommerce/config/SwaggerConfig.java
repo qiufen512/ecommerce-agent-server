@@ -35,7 +35,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("电商智能客服系统 API")
                 .description("基于LangGraph的多Agent智能客服系统 - Java接入层接口文档")
-                .contact(new Contact("开发团队", "", ""))
+                .contact(new Contact("秋分", "", ""))
                 .version("1.0.0")
                 .build();
     }

@@ -4,14 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.FaqKnowledge;
+import com.ecommerce.model.vo.knowledge.FaqKnowledgeCreateVO;
+import com.ecommerce.model.vo.knowledge.FaqKnowledgeQueryVO;
+import com.ecommerce.model.vo.knowledge.FaqKnowledgeUpdateVO;
 import com.ecommerce.service.FaqKnowledgeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  * FAQ知识库控制器
@@ -20,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/faq")
 @RequiredArgsConstructor
+@Validated
 public class FaqKnowledgeController {
 
     private final FaqKnowledgeService faqService;
@@ -27,7 +36,9 @@ public class FaqKnowledgeController {
     /** 创建FAQ条目 */
     @ApiOperation("创建FAQ条目")
     @PostMapping
-    public Result<?> create(@RequestBody FaqKnowledge faq) {
+    public Result<?> create(@Valid @RequestBody FaqKnowledgeCreateVO vo) {
+        FaqKnowledge faq = new FaqKnowledge();
+        BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.save(faq);
         return success ? Result.success() : Result.fail("创建FAQ失败");
     }
@@ -35,7 +46,13 @@ public class FaqKnowledgeController {
     /** 批量创建FAQ条目 */
     @ApiOperation("批量创建FAQ条目")
     @PostMapping("/batch")
-    public Result<?> createBatch(@RequestBody List<FaqKnowledge> faqList) {
+    public Result<?> createBatch(@RequestBody List<FaqKnowledgeCreateVO> voList) {
+        List<FaqKnowledge> faqList = new ArrayList<>();
+        for (FaqKnowledgeCreateVO vo : voList) {
+            FaqKnowledge faq = new FaqKnowledge();
+            BeanUtils.copyProperties(vo, faq);
+            faqList.add(faq);
+        }
         boolean success = faqService.saveBatch(faqList);
         return success ? Result.success() : Result.fail("批量创建FAQ失败");
     }
@@ -66,15 +83,29 @@ public class FaqKnowledgeController {
     @ApiOperation("分页查询FAQ列表")
     @GetMapping("/page")
     public Result<Page<FaqKnowledge>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                           @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size) {
-        Page<FaqKnowledge> page = faqService.page(new Page<>(current, size));
+                                           @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+                                           FaqKnowledgeQueryVO queryVO) {
+        LambdaQueryWrapper<FaqKnowledge> wrapper = new LambdaQueryWrapper<>();
+        if (queryVO.getQuestion() != null) {
+            wrapper.like(FaqKnowledge::getQuestion, queryVO.getQuestion());
+        }
+        if (queryVO.getCategory() != null) {
+            wrapper.eq(FaqKnowledge::getCategory, queryVO.getCategory());
+        }
+        if (queryVO.getMinPriority() != null) {
+            wrapper.ge(FaqKnowledge::getPriority, queryVO.getMinPriority());
+        }
+        wrapper.orderByDesc(FaqKnowledge::getPriority);
+        Page<FaqKnowledge> page = faqService.page(new Page<>(current, size), wrapper);
         return Result.success(page);
     }
 
     /** 更新FAQ条目 */
     @ApiOperation("更新FAQ条目")
     @PutMapping
-    public Result<?> update(@RequestBody FaqKnowledge faq) {
+    public Result<?> update(@Valid @RequestBody FaqKnowledgeUpdateVO vo) {
+        FaqKnowledge faq = new FaqKnowledge();
+        BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.updateById(faq);
         return success ? Result.success() : Result.fail("更新FAQ失败");
     }
