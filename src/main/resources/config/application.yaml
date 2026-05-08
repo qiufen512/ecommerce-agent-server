@@ -5,6 +5,10 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  # 解决 Swagger 与 Spring Boot 2.6+ 兼容性问题
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 # MyBatis Plus 配置
 mybatis-plus:
