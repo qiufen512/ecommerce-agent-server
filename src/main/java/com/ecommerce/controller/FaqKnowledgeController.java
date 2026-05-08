@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ecommerce.common.Result;
 import com.ecommerce.entity.FaqKnowledge;
 import com.ecommerce.service.FaqKnowledgeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,7 @@ import java.util.List;
 /**
  * FAQ知识库控制器
  */
+@Api(tags = "FAQ知识库")
 @RestController
 @RequestMapping("/api/faq")
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ public class FaqKnowledgeController {
     private final FaqKnowledgeService faqService;
 
     /** 创建FAQ条目 */
+    @ApiOperation("创建FAQ条目")
     @PostMapping
     public Result<?> create(@RequestBody FaqKnowledge faq) {
         boolean success = faqService.save(faq);
@@ -28,6 +33,7 @@ public class FaqKnowledgeController {
     }
 
     /** 批量创建FAQ条目 */
+    @ApiOperation("批量创建FAQ条目")
     @PostMapping("/batch")
     public Result<?> createBatch(@RequestBody List<FaqKnowledge> faqList) {
         boolean success = faqService.saveBatch(faqList);
@@ -35,8 +41,9 @@ public class FaqKnowledgeController {
     }
 
     /** 按主键ID查询FAQ */
+    @ApiOperation("按主键ID查询FAQ")
     @GetMapping("/{id}")
-    public Result<?> getById(@PathVariable Long id) {
+    public Result<?> getById(@ApiParam("主键ID") @PathVariable Long id) {
         FaqKnowledge faq = faqService.getById(id);
         if (faq != null) {
             return Result.success(faq);
@@ -45,8 +52,9 @@ public class FaqKnowledgeController {
     }
 
     /** 按分类查询FAQ列表（按优先级降倒） */
+    @ApiOperation("按分类查询FAQ列表")
     @GetMapping("/category/{category}")
-    public Result<List<FaqKnowledge>> listByCategory(@PathVariable String category) {
+    public Result<List<FaqKnowledge>> listByCategory(@ApiParam("分类") @PathVariable String category) {
         List<FaqKnowledge> list = faqService.list(
                 new LambdaQueryWrapper<FaqKnowledge>()
                         .eq(FaqKnowledge::getCategory, category)
@@ -55,14 +63,16 @@ public class FaqKnowledgeController {
     }
 
     /** 分页查询FAQ列表 */
+    @ApiOperation("分页查询FAQ列表")
     @GetMapping("/page")
-    public Result<Page<FaqKnowledge>> page(@RequestParam(defaultValue = "1") Integer current,
-                                           @RequestParam(defaultValue = "10") Integer size) {
+    public Result<Page<FaqKnowledge>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
+                                           @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size) {
         Page<FaqKnowledge> page = faqService.page(new Page<>(current, size));
         return Result.success(page);
     }
 
     /** 更新FAQ条目 */
+    @ApiOperation("更新FAQ条目")
     @PutMapping
     public Result<?> update(@RequestBody FaqKnowledge faq) {
         boolean success = faqService.updateById(faq);
@@ -70,8 +80,9 @@ public class FaqKnowledgeController {
     }
 
     /** 删除FAQ条目 */
+    @ApiOperation("删除FAQ条目")
     @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable Long id) {
+    public Result<?> delete(@ApiParam("主键ID") @PathVariable Long id) {
         boolean success = faqService.removeById(id);
         return success ? Result.success() : Result.fail("删除FAQ失败");
     }
