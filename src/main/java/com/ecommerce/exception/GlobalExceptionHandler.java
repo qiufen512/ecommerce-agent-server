@@ -3,6 +3,7 @@ package com.ecommerce.exception;
 import com.ecommerce.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +28,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     public Result<?> handleBusinessException(BusinessException e, HttpServletRequest request) {
         log.error("业务异常 [{}] {}", request.getRequestURI(), e.getMessage());
+        return Result.fail(e.getCode(), e.getMessage());
+    }
+
+    /** Python 服务异常 */
+    @ExceptionHandler(PythonServiceException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public Result<?> handlePythonServiceException(PythonServiceException e, HttpServletRequest request) {
+        log.error("Python服务异常 [{}] {}", request.getRequestURI(), e.getMessage());
         return Result.fail(e.getCode(), e.getMessage());
     }
 
