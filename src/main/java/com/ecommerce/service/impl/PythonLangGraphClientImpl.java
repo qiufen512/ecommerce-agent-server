@@ -2,8 +2,8 @@ package com.ecommerce.service.impl;
 
 import com.ecommerce.enums.ErrorCode;
 import com.ecommerce.exception.PythonServiceException;
-import com.ecommerce.model.dto.ChatResponseDTO;
 import com.ecommerce.model.vo.chat.ChatRequestVO;
+import com.ecommerce.model.vo.chat.ChatResponseVO;
 import com.ecommerce.service.PythonLangGraphClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class PythonLangGraphClientImpl implements PythonLangGraphClient {
     private String pythonBaseUrl;
 
     @Override
-    public ChatResponseDTO callLangGraph(ChatRequestVO request) throws PythonServiceException {
+    public ChatResponseVO callLangGraph(ChatRequestVO request) throws PythonServiceException {
         long startTime = System.currentTimeMillis();
         String url = pythonBaseUrl + "/run";
 
@@ -54,7 +54,7 @@ public class PythonLangGraphClientImpl implements PythonLangGraphClient {
             log.info("Python服务调用成功 - 耗时: {}ms, status: {}", elapsed, response.getStatusCode());
 
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                return objectMapper.readValue(response.getBody(), ChatResponseDTO.class);
+                return objectMapper.readValue(response.getBody(), ChatResponseVO.class);
             } else {
                 throw new PythonServiceException(ErrorCode.PYTHON_SERVICE_UNAVAILABLE.getCode(),
                         "Python服务返回异常状态: " + response.getStatusCode());

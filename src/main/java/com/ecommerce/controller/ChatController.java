@@ -1,8 +1,8 @@
 package com.ecommerce.controller;
 
-import com.ecommerce.common.Result;
-import com.ecommerce.model.dto.ChatResponseDTO;
+import com.ecommerce.common.response.Response;
 import com.ecommerce.model.vo.chat.ChatRequestVO;
+import com.ecommerce.model.vo.chat.ChatResponseVO;
 import com.ecommerce.service.ChatService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,15 +28,15 @@ public class ChatController {
 
     @ApiOperation("发送消息获取AI回复")
     @PostMapping
-    public Result<ChatResponseDTO> chat(@Valid @RequestBody ChatRequestVO request) {
+    public Response chat(@Valid @RequestBody ChatRequestVO request) {
         log.info("收到聊天请求 - sessionId: {}, userId: {}, message: {}",
                 request.getSessionId(), request.getUserId(), request.getMessage());
 
-        ChatResponseDTO response = chatService.processMessage(request);
+        ChatResponseVO response = chatService.processMessage(request);
 
         log.info("聊天处理完成 - sessionId: {}, intent: {}, confidence: {}, humanFlag: {}",
                 response.getSessionId(), response.getIntent(), response.getConfidence(), response.getHumanFlag());
 
-        return Result.success(response);
+        return Response.success(response);
     }
 }

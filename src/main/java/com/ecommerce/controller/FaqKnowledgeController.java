@@ -2,10 +2,11 @@ package com.ecommerce.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ecommerce.common.Result;
+import com.ecommerce.common.response.Response;
 import com.ecommerce.entity.FaqKnowledge;
 import com.ecommerce.model.vo.knowledge.FaqKnowledgeCreateVO;
 import com.ecommerce.model.vo.knowledge.FaqKnowledgeQueryVO;
+import com.ecommerce.model.vo.knowledge.FaqKnowledgeResponseVO;
 import com.ecommerce.model.vo.knowledge.FaqKnowledgeUpdateVO;
 import com.ecommerce.service.FaqKnowledgeService;
 import io.swagger.annotations.Api;
@@ -17,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -36,17 +37,17 @@ public class FaqKnowledgeController {
     /** 创建FAQ条目 */
     @ApiOperation("创建FAQ条目")
     @PostMapping
-    public Result<?> create(@Valid @RequestBody FaqKnowledgeCreateVO vo) {
+    public Response create(@Valid @RequestBody FaqKnowledgeCreateVO vo) {
         FaqKnowledge faq = new FaqKnowledge();
         BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.save(faq);
-        return success ? Result.success() : Result.fail("创建FAQ失败");
+        return success ? Response.success() : Response.fail("创建FAQ失败");
     }
 
     /** 批量创建FAQ条目 */
     @ApiOperation("批量创建FAQ条目")
     @PostMapping("/batch")
-    public Result<?> createBatch(@RequestBody List<FaqKnowledgeCreateVO> voList) {
+    public Response createBatch(@RequestBody List<FaqKnowledgeCreateVO> voList) {
         List<FaqKnowledge> faqList = new ArrayList<>();
         for (FaqKnowledgeCreateVO vo : voList) {
             FaqKnowledge faq = new FaqKnowledge();
@@ -54,35 +55,42 @@ public class FaqKnowledgeController {
             faqList.add(faq);
         }
         boolean success = faqService.saveBatch(faqList);
-        return success ? Result.success() : Result.fail("批量创建FAQ失败");
+        return success ? Response.success() : Response.fail("批量创建FAQ失败");
     }
 
     /** 按主键ID查询FAQ */
     @ApiOperation("按主键ID查询FAQ")
     @GetMapping("/{id}")
-    public Result<?> getById(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response getById(@ApiParam("主键ID") @PathVariable Long id) {
         FaqKnowledge faq = faqService.getById(id);
         if (faq != null) {
-            return Result.success(faq);
+            FaqKnowledgeResponseVO vo = new FaqKnowledgeResponseVO();
+            BeanUtils.copyProperties(faq, vo);
+            return Response.success(vo);
         }
-        return Result.notFound("FAQ不存在: " + id);
+        return Response.notFound("FAQ不存在: " + id);
     }
 
     /** 按分类查询FAQ列表（按优先级降倒） */
     @ApiOperation("按分类查询FAQ列表")
     @GetMapping("/category/{category}")
-    public Result<List<FaqKnowledge>> listByCategory(@ApiParam("分类") @PathVariable String category) {
+    public Response listByCategory(@ApiParam("分类") @PathVariable String category) {
         List<FaqKnowledge> list = faqService.list(
                 new LambdaQueryWrapper<FaqKnowledge>()
                         .eq(FaqKnowledge::getCategory, category)
                         .orderByDesc(FaqKnowledge::getPriority));
-        return Result.success(list);
+        List<FaqKnowledgeResponseVO> voList = list.stream().map(faq -> {
+            FaqKnowledgeResponseVO vo = new FaqKnowledgeResponseVO();
+            BeanUtils.copyProperties(faq, vo);
+            return vo;
+        }).collect(java.util.stream.Collectors.toList());
+        return Response.success(voList);
     }
 
     /** 分页查询FAQ列表 */
     @ApiOperation("分页查询FAQ列表")
     @GetMapping("/page")
-    public Result<Page<FaqKnowledge>> page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
+    public Response page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
                                            @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
                                            FaqKnowledgeQueryVO queryVO) {
         LambdaQueryWrapper<FaqKnowledge> wrapper = new LambdaQueryWrapper<>();
@@ -97,24 +105,31 @@ public class FaqKnowledgeController {
         }
         wrapper.orderByDesc(FaqKnowledge::getPriority);
         Page<FaqKnowledge> page = faqService.page(new Page<>(current, size), wrapper);
-        return Result.success(page);
+        Page<FaqKnowledgeResponseVO> voPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        List<FaqKnowledgeResponseVO> voList = page.getRecords().stream().map(faq -> {
+            FaqKnowledgeResponseVO vo = new FaqKnowledgeResponseVO();
+            BeanUtils.copyProperties(faq, vo);
+            return vo;
+        }).collect(java.util.stream.Collectors.toList());
+        voPage.setRecords(voList);
+        return Response.success(voPage);
     }
 
     /** 更新FAQ条目 */
     @ApiOperation("更新FAQ条目")
     @PutMapping
-    public Result<?> update(@Valid @RequestBody FaqKnowledgeUpdateVO vo) {
+    public Response update(@Valid @RequestBody FaqKnowledgeUpdateVO vo) {
         FaqKnowledge faq = new FaqKnowledge();
         BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.updateById(faq);
-        return success ? Result.success() : Result.fail("更新FAQ失败");
+        return success ? Response.success() : Response.fail("更新FAQ失败");
     }
 
     /** 删除FAQ条目 */
     @ApiOperation("删除FAQ条目")
     @DeleteMapping("/{id}")
-    public Result<?> delete(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response delete(@ApiParam("主键ID") @PathVariable Long id) {
         boolean success = faqService.removeById(id);
-        return success ? Result.success() : Result.fail("删除FAQ失败");
+        return success ? Response.success() : Response.fail("删除FAQ失败");
     }
 }

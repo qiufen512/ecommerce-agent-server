@@ -1,7 +1,8 @@
 package com.ecommerce.service;
 
-import com.ecommerce.model.dto.ChatResponseDTO;
+import com.ecommerce.exception.PythonServiceException;
 import com.ecommerce.model.vo.chat.ChatRequestVO;
+import com.ecommerce.model.vo.chat.ChatResponseVO;
 
 /**
  * Python LangGraph 服务客户端
@@ -15,5 +16,5 @@ public interface PythonLangGraphClient {
      * @return 聊天响应
      * @throws PythonServiceException 服务不可用或超时
      */
-    ChatResponseDTO callLangGraph(ChatRequestVO request) throws PythonServiceException;
+    ChatResponseVO callLangGraph(ChatRequestVO request) throws PythonServiceException;
 }
