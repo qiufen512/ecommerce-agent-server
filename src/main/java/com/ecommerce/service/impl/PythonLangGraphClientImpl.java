@@ -30,7 +30,7 @@ public class PythonLangGraphClientImpl implements PythonLangGraphClient {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${python.langgraph.url:http://localhost:8000}")
+    @Value("${python.langgraph.url:http://localhost:8090}")
     private String pythonBaseUrl;
 
     @Override

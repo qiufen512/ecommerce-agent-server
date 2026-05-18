@@ -15,7 +15,7 @@ public class PythonServiceConfig {
     @Value("${python.langgraph.url:http://localhost:8000}")
     private String pythonBaseUrl;
 
-    @Value("${python.langgraph.timeout:3000}")
+    @Value("${python.langgraph.timeout:10000}")
     private int timeoutMs;
 
     @Bean
