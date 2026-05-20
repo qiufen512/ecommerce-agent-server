@@ -3,6 +3,7 @@ package com.ecommerce.exception;
 import com.ecommerce.common.response.Response;
 import com.ecommerce.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -87,6 +88,14 @@ public class GlobalExceptionHandler {
     public Response<?> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("Illegal argument: {}", e.getMessage());
         return Response.badRequest(e.getMessage());
+    }
+
+    /** Duplicate Key Exception (idempotent conflict) */
+    @ExceptionHandler(DuplicateKeyException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Response<?> handleDuplicateKeyException(DuplicateKeyException e) {
+        log.warn("Duplicate key violation: {}", e.getMessage());
+        return Response.fail(ErrorCode.CONFLICT);
     }
 
     /** Null Pointer Exception */

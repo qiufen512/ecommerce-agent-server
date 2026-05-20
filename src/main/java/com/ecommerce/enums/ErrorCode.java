@@ -13,6 +13,7 @@ public enum ErrorCode {
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(404, "Not Found"),
+    CONFLICT(409, "Resource Already Exists"),
     INTERNAL_ERROR(500, "Internal Server Error"),
     PYTHON_SERVICE_UNAVAILABLE(503, "Python Service Unavailable"),
     PYTHON_SERVICE_TIMEOUT(504, "Python Service Timeout");
