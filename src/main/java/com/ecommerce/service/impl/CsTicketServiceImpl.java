@@ -7,7 +7,7 @@ import com.ecommerce.service.CsTicketService;
 import org.springframework.stereotype.Service;
 
 /**
- * 工单服务实现
+ * Ticket Service Implementation
  */
 @Service
 public class CsTicketServiceImpl extends ServiceImpl<CsTicketMapper, CsTicket> implements CsTicketService {

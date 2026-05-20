@@ -7,19 +7,19 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 审核退款请求 VO
+ * Review Refund Request VO
  */
 @Data
-@ApiModel("审核退款请求")
+@ApiModel("Review Refund Request")
 public class CsRefundApproveVO {
 
-    @ApiModelProperty(value = "退款单号", required = true, example = "REF20240422001")
-    @NotBlank(message = "退款单号不能为空")
+    @ApiModelProperty(value = "Refund Number", required = true, example = "REF20240422001")
+    @NotBlank(message = "Refund number must not be empty")
     private String refundNo;
 
-    @ApiModelProperty(value = "是否通过", required = true, example = "true")
+    @ApiModelProperty(value = "Is Approved", required = true, example = "true")
     private Boolean approved;
 
-    @ApiModelProperty(value = "拒绝原因（approved=false时必填）", example = "超过退货期限")
+    @ApiModelProperty(value = "Rejection reason (required when approved=false)", example = "Exceeded return deadline")
     private String rejectReason;
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 客户订单实体（模拟，后续对接真实系统）
+ * Customer order entity (simulated, to be connected to real system)
  */
 @Data
 @TableName("cs_order")

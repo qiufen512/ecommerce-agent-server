@@ -7,7 +7,7 @@ import com.ecommerce.service.CsSessionService;
 import org.springframework.stereotype.Service;
 
 /**
- * 客服会话服务实现
+ * CS Session Service Implementation
  */
 @Service
 public class CsSessionServiceImpl extends ServiceImpl<CsSessionMapper, CsSession> implements CsSessionService {

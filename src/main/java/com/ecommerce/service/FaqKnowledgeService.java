@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecommerce.entity.FaqKnowledge;
 
 /**
- * FAQ知识库服务接口
+ * FAQ Knowledge Base Service Interface
  */
 public interface FaqKnowledgeService extends IService<FaqKnowledge> {
 }

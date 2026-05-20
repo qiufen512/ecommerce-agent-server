@@ -8,31 +8,31 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * 更新订单请求 VO
+ * Update Order Request VO
  */
 @Data
-@ApiModel("更新订单请求")
+@ApiModel("Update Order Request")
 public class CsOrderUpdateVO {
 
-    @ApiModelProperty(value = "主键ID", required = true, example = "1")
-    @NotNull(message = "主键ID不能为空")
+    @ApiModelProperty(value = "Primary Key ID", required = true, example = "1")
+    @NotNull(message = "Primary key ID must not be empty")
     private Long id;
 
-    @ApiModelProperty(value = "订单号", example = "TEST2025042201")
+    @ApiModelProperty(value = "Order Number", example = "TEST2025042201")
     private String orderNo;
 
-    @ApiModelProperty(value = "商品名称", example = "智能手表")
+    @ApiModelProperty(value = "Product Name", example = "Smart Watch")
     private String productName;
 
-    @ApiModelProperty(value = "订单金额", example = "999.00")
+    @ApiModelProperty(value = "Order Amount", example = "999.00")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "订单状态", example = "delivered")
+    @ApiModelProperty(value = "Order Status", example = "delivered")
     private String status;
 
-    @ApiModelProperty(value = "物流单号", example = "SF1234567890")
+    @ApiModelProperty(value = "Logistics Number", example = "SF1234567890")
     private String logisticsNo;
 
-    @ApiModelProperty(value = "物流状态", example = "运输中")
+    @ApiModelProperty(value = "Logistics Status", example = "In Transit")
     private String logisticsStatus;
 }

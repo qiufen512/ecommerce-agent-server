@@ -12,36 +12,36 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 /**
- * 创建订单请求 VO
+ * Create Order Request VO
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("创建订单请求")
+@ApiModel("Create Order Request")
 public class CsOrderCreateVO extends BaseVO {
 
-    @ApiModelProperty(value = "订单号", required = true, example = "TEST2025042201")
-    @NotBlank(message = "订单号不能为空")
+    @ApiModelProperty(value = "Order Number", required = true, example = "TEST2025042201")
+    @NotBlank(message = "Order number must not be empty")
     private String orderNo;
 
-    @ApiModelProperty(value = "用户ID", required = true, example = "user123")
-    @NotBlank(message = "用户ID不能为空")
+    @ApiModelProperty(value = "User ID", required = true, example = "user123")
+    @NotBlank(message = "User ID must not be empty")
     private String userId;
 
-    @ApiModelProperty(value = "商品名称", example = "智能手表")
-    @NotBlank(message = "商品名称不能为空")
+    @ApiModelProperty(value = "Product Name", example = "Smart Watch")
+    @NotBlank(message = "Product name must not be empty")
     private String productName;
 
-    @ApiModelProperty(value = "订单金额", required = true, example = "999.00")
-    @NotNull(message = "订单金额不能为空")
-    @Positive(message = "订单金额必须大于0")
+    @ApiModelProperty(value = "Order Amount", required = true, example = "999.00")
+    @NotNull(message = "Order amount must not be empty")
+    @Positive(message = "Order amount must be greater than 0")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "订单状态", example = "delivered")
+    @ApiModelProperty(value = "Order Status", example = "delivered")
     private String status;
 
-    @ApiModelProperty(value = "物流单号", example = "SF1234567890")
+    @ApiModelProperty(value = "Logistics Number", example = "SF1234567890")
     private String logisticsNo;
 
-    @ApiModelProperty(value = "物流状态", example = "运输中")
+    @ApiModelProperty(value = "Logistics Status", example = "In Transit")
     private String logisticsStatus;
 }

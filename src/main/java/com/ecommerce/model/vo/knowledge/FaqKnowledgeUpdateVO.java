@@ -7,25 +7,25 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * 更新FAQ请求 VO
+ * Update FAQ Request VO
  */
 @Data
-@ApiModel("更新FAQ请求")
+@ApiModel("Update FAQ Request")
 public class FaqKnowledgeUpdateVO {
 
-    @ApiModelProperty(value = "主键ID", required = true, example = "1")
-    @NotNull(message = "主键ID不能为空")
+    @ApiModelProperty(value = "Primary Key ID", required = true, example = "1")
+    @NotNull(message = "Primary key ID must not be empty")
     private Long id;
 
-    @ApiModelProperty(value = "标准问题", example = "如何申请退款？")
+    @ApiModelProperty(value = "Standard Question", example = "How to apply for a refund?")
     private String question;
 
-    @ApiModelProperty(value = "标准答案", example = "在订单详情页点击申请退款...")
+    @ApiModelProperty(value = "Standard Answer", example = "Click 'Apply Refund' on the order details page...")
     private String answer;
 
-    @ApiModelProperty(value = "问题分类：refund/logistics/product/complaint/other", example = "refund")
+    @ApiModelProperty(value = "Category: refund/logistics/product/complaint/other", example = "refund")
     private String category;
 
-    @ApiModelProperty(value = "优先级，数字越大越优先展示", example = "100")
+    @ApiModelProperty(value = "Priority (higher value = higher display priority)", example = "100")
     private Integer priority;
 }

@@ -17,91 +17,91 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 /**
- * 全局异常处理器
+ * Global Exception Handler
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /** 业务异常 */
+    /** Business Exception */
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
     public Response<?> handleBusinessException(BusinessException e, HttpServletRequest request) {
-        log.error("业务异常 [{}] {}", request.getRequestURI(), e.getMessage());
+        log.error("Business Exception [{}] {}", request.getRequestURI(), e.getMessage());
         return Response.fail(e);
     }
 
-    /** Python 服务异常 */
+    /** Python Service Exception */
     @ExceptionHandler(PythonServiceException.class)
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     public Response<?> handlePythonServiceException(PythonServiceException e, HttpServletRequest request) {
-        log.error("Python服务异常 [{}] {}", request.getRequestURI(), e.getMessage());
+        log.error("Python Service Exception [{}] {}", request.getRequestURI(), e.getMessage());
         return Response.fail(e.getCode().toString(), e.getMessage());
     }
 
-    /** 参数校验失败（@Valid） */
+    /** Parameter Validation Failed (@Valid) */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         FieldError fieldError = e.getBindingResult().getFieldError();
-        String message = fieldError != null ? fieldError.getDefaultMessage() : "参数校验失败";
-        log.error("参数校验失败: {}", message);
+        String message = fieldError != null ? fieldError.getDefaultMessage() : "Parameter validation failed";
+        log.error("Parameter validation failed: {}", message);
         return Response.badRequest(message);
     }
 
-    /** 参数绑定异常（@Validated） */
+    /** Parameter Binding Exception (@Validated) */
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response<?> handleBindException(BindException e) {
         FieldError fieldError = e.getFieldError();
-        String message = fieldError != null ? fieldError.getDefaultMessage() : "参数绑定失败";
-        log.error("参数绑定失败: {}", message);
+        String message = fieldError != null ? fieldError.getDefaultMessage() : "Parameter binding failed";
+        log.error("Parameter binding failed: {}", message);
         return Response.badRequest(message);
     }
 
-    /** 路径参数类型不匹配 */
+    /** Path Parameter Type Mismatch */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        String message = String.format("参数 %s 类型不匹配，期望类型: %s",
+        String message = String.format("Parameter %s type mismatch, expected type: %s",
                 e.getName(), e.getRequiredType().getSimpleName());
-        log.error("路径参数类型不匹配: {}", message);
+        log.error("Path parameter type mismatch: {}", message);
         return Response.badRequest(message);
     }
 
-    /** 约束校验异常（@Validated 的 @NotNull 等） */
+    /** Constraint Violation Exception (@Validated @NotNull etc.) */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response<?> handleConstraintViolationException(ConstraintViolationException e) {
         String message = e.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .findFirst()
-                .orElse("参数校验失败");
-        log.error("约束校验失败: {}", message);
+                .orElse("Parameter validation failed");
+        log.error("Constraint validation failed: {}", message);
         return Response.badRequest(message);
     }
 
-    /** 非法参数异常 */
+    /** Illegal Argument Exception */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Response<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("非法参数: {}", e.getMessage());
+        log.error("Illegal argument: {}", e.getMessage());
         return Response.badRequest(e.getMessage());
     }
 
-    /** 空指针异常 */
+    /** Null Pointer Exception */
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<?> handleNullPointerException(NullPointerException e) {
-        log.error("空指针异常", e);
-        return Response.serverError("服务器内部错误");
+        log.error("Null pointer exception", e);
+        return Response.serverError("Internal server error");
     }
 
-    /** 兜底异常 */
+    /** Fallback Exception */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response<?> handleException(Exception e, HttpServletRequest request) {
-        log.error("未知异常 [{}] {}", request.getRequestURI(), e.getMessage(), e);
-        return Response.serverError("服务器内部错误");
+        log.error("Unknown exception [{}] {}", request.getRequestURI(), e.getMessage(), e);
+        return Response.serverError("Internal server error");
     }
 }

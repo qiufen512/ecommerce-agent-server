@@ -9,24 +9,24 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 创建FAQ请求 VO
+ * Create FAQ Request VO
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("创建FAQ请求")
+@ApiModel("Create FAQ Request")
 public class FaqKnowledgeCreateVO extends BaseVO {
 
-    @ApiModelProperty(value = "标准问题", required = true, example = "如何申请退款？")
-    @NotBlank(message = "问题不能为空")
+    @ApiModelProperty(value = "Standard Question", required = true, example = "How to apply for a refund?")
+    @NotBlank(message = "Question must not be empty")
     private String question;
 
-    @ApiModelProperty(value = "标准答案", required = true, example = "在订单详情页点击申请退款...")
-    @NotBlank(message = "答案不能为空")
+    @ApiModelProperty(value = "Standard Answer", required = true, example = "Click 'Apply Refund' on the order details page...")
+    @NotBlank(message = "Answer must not be empty")
     private String answer;
 
-    @ApiModelProperty(value = "问题分类：refund/logistics/product/complaint/other", example = "refund")
+    @ApiModelProperty(value = "Category: refund/logistics/product/complaint/other", example = "refund")
     private String category;
 
-    @ApiModelProperty(value = "优先级，数字越大越优先展示", example = "100")
+    @ApiModelProperty(value = "Priority (higher value = higher display priority)", example = "100")
     private Integer priority;
 }

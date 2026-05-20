@@ -7,7 +7,7 @@ import com.ecommerce.service.FaqKnowledgeService;
 import org.springframework.stereotype.Service;
 
 /**
- * FAQ知识库服务实现
+ * FAQ Knowledge Base Service Implementation
  */
 @Service
 public class FaqKnowledgeServiceImpl extends ServiceImpl<FaqKnowledgeMapper, FaqKnowledge> implements FaqKnowledgeService {

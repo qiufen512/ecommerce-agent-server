@@ -7,34 +7,34 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * 更新工单请求 VO
+ * Update Ticket Request VO
  */
 @Data
-@ApiModel("更新工单请求")
+@ApiModel("Update Ticket Request")
 public class CsTicketUpdateVO {
 
-    @ApiModelProperty(value = "主键ID", required = true, example = "1")
-    @NotNull(message = "主键ID不能为空")
+    @ApiModelProperty(value = "Primary Key ID", required = true, example = "1")
+    @NotNull(message = "Primary key ID must not be empty")
     private Long id;
 
-    @ApiModelProperty(value = "工单业务ID", example = "1001")
+    @ApiModelProperty(value = "Ticket Business ID", example = "1001")
     private Long ticketId;
 
-    @ApiModelProperty(value = "关联会话ID", example = "session_001")
+    @ApiModelProperty(value = "Related Session ID", example = "session_001")
     private String sessionId;
 
-    @ApiModelProperty(value = "意图类型：refund/logistic/product/complaint", example = "refund")
+    @ApiModelProperty(value = "Intent: refund/logistics/product/complaint", example = "refund")
     private String intent;
 
-    @ApiModelProperty(value = "关联订单号", example = "TEST2025042201")
+    @ApiModelProperty(value = "Related Order Number", example = "TEST2025042201")
     private String orderNo;
 
-    @ApiModelProperty(value = "状态：0=待处理 1=处理中 2=已完成 3=已关闭", example = "0")
+    @ApiModelProperty(value = "Status: 0=Pending 1=Processing 2=Completed 3=Closed", example = "0")
     private Integer status;
 
-    @ApiModelProperty(value = "AI回复摘要", example = "用户要求退款，已确认资格")
+    @ApiModelProperty(value = "AI Reply Summary", example = "User requested refund, eligibility confirmed")
     private String agentReply;
 
-    @ApiModelProperty(value = "人工介入标识：0=AI处理 1=人工介入", example = "0")
+    @ApiModelProperty(value = "Human Intervention Flag: 0=AI 1=Human", example = "0")
     private Integer humanFlag;
 }

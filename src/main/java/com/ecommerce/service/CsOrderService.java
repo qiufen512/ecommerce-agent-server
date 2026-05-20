@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecommerce.entity.CsOrder;
 
 /**
- * 客户订单服务接口
+ * CS Order Service Interface
  */
 public interface CsOrderService extends IService<CsOrder> {
 
-    /** 按订单号查询（订单不存在抛异常） */
+    /** Query by order number (throws exception if order not found) */
     CsOrder getByOrderNoOrThrow(String orderNo);
 }

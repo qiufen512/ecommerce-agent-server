@@ -13,8 +13,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 /**
- * Swagger API文档配置
- * 访问地址: http://localhost:8080/doc.html
+ * Swagger API documentation configuration
+ * URL: http://localhost:8080/doc.html
  */
 @Configuration
 @EnableOpenApi
@@ -33,9 +33,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("电商智能客服系统 API")
-                .description("基于LangGraph的多Agent智能客服系统 - Java接入层接口文档")
-                .contact(new Contact("秋分", "", ""))
+                .title("E-commerce Intelligent CS System API")
+                .description("LangGraph-based Multi-Agent Intelligent CS System - Java Integration Layer API Documentation")
+                .contact(new Contact("Qiufen", "", ""))
                 .version("1.0.0")
                 .build();
     }

@@ -9,7 +9,7 @@ import com.ecommerce.service.CsOrderService;
 import org.springframework.stereotype.Service;
 
 /**
- * 客户订单服务实现
+ * CS Order Service Implementation
  */
 @Service
 public class CsOrderServiceImpl extends ServiceImpl<CsOrderMapper, CsOrder> implements CsOrderService {
@@ -19,7 +19,7 @@ public class CsOrderServiceImpl extends ServiceImpl<CsOrderMapper, CsOrder> impl
         CsOrder order = getOne(
                 new LambdaQueryWrapper<CsOrder>().eq(CsOrder::getOrderNo, orderNo));
         if (order == null) {
-            throw new BusinessException(404, "订单不存在: " + orderNo);
+            throw new BusinessException(404, "Order not found: " + orderNo);
         }
         return order;
     }

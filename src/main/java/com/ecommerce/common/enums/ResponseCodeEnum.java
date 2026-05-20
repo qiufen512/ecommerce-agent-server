@@ -3,36 +3,36 @@ package com.ecommerce.common.enums;
 import lombok.Getter;
 
 /**
- * 响应码枚举
+ * Response Code Enum
  */
 @Getter
 public enum ResponseCodeEnum {
 
-    // 成功响应
-    SUCCESS("200", "成功"),
+    // Success
+    SUCCESS("200", "Success"),
 
-    // 客户端错误 (400-499)
-    BAD_REQUEST("400", "请求参数错误"),
-    UNAUTHORIZED("401", "未授权"),
-    FORBIDDEN("403", "禁止访问"),
-    NOT_FOUND("404", "资源不存在"),
-    METHOD_NOT_ALLOWED("405", "方法不允许"),
+    // Client Error (400-499)
+    BAD_REQUEST("400", "Bad Request"),
+    UNAUTHORIZED("401", "Unauthorized"),
+    FORBIDDEN("403", "Forbidden"),
+    NOT_FOUND("404", "Not Found"),
+    METHOD_NOT_ALLOWED("405", "Method Not Allowed"),
 
-    // 服务器错误 (500-599)
-    SERVER_ERROR("500", "服务器内部错误"),
-    SERVICE_UNAVAILABLE("503", "服务不可用"),
+    // Server Error (500-599)
+    SERVER_ERROR("500", "Internal Server Error"),
+    SERVICE_UNAVAILABLE("503", "Service Unavailable"),
 
-    // 业务错误 (1000-1999)
-    BUSINESS_ERROR("1000", "业务错误"),
-    VALIDATION_ERROR("1001", "参数验证失败"),
-    DATA_NOT_FOUND("1002", "数据不存在"),
-    DATA_EXISTS("1003", "数据已存在"),
-    OPERATION_FAILED("1004", "操作失败"),
+    // Business Error (1000-1999)
+    BUSINESS_ERROR("1000", "Business Error"),
+    VALIDATION_ERROR("1001", "Parameter Validation Failed"),
+    DATA_NOT_FOUND("1002", "Data Not Found"),
+    DATA_EXISTS("1003", "Data Already Exists"),
+    OPERATION_FAILED("1004", "Operation Failed"),
 
-    // 第三方服务错误 (2000-2999)
-    PYTHON_SERVICE_ERROR("2000", "Python服务调用失败"),
-    DATABASE_ERROR("2001", "数据库操作失败"),
-    EXTERNAL_API_ERROR("2002", "外部API调用失败");
+    // Third-party Service Error (2000-2999)
+    PYTHON_SERVICE_ERROR("2000", "Python Service Call Failed"),
+    DATABASE_ERROR("2001", "Database Operation Failed"),
+    EXTERNAL_API_ERROR("2002", "External API Call Failed");
 
     private final String code;
     private final String message;
@@ -43,7 +43,7 @@ public enum ResponseCodeEnum {
     }
 
     /**
-     * 根据code获取枚举
+     * Get enum by code
      */
     public static ResponseCodeEnum getByCode(String code) {
         for (ResponseCodeEnum value : values()) {

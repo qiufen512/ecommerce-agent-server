@@ -5,18 +5,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * FAQ查询请求 VO
+ * FAQ Query Request VO
  */
 @Data
-@ApiModel("FAQ查询请求")
+@ApiModel("FAQ Query Request")
 public class FaqKnowledgeQueryVO {
 
-    @ApiModelProperty(value = "标准问题（支持模糊查询）", example = "退款")
+    @ApiModelProperty(value = "Standard Question (fuzzy search supported)", example = "refund")
     private String question;
 
-    @ApiModelProperty(value = "问题分类：refund/logistics/product/complaint/other", example = "refund")
+    @ApiModelProperty(value = "Category: refund/logistics/product/complaint/other", example = "refund")
     private String category;
 
-    @ApiModelProperty(value = "优先级（大于等于）", example = "50")
+    @ApiModelProperty(value = "Minimum Priority", example = "50")
     private Integer minPriority;
 }

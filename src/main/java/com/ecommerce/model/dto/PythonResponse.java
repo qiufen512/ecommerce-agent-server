@@ -3,6 +3,9 @@ package com.ecommerce.model.dto;
 import lombok.Data;
 import java.util.List;
 
+/**
+ * Python Service Response DTO
+ */
 @Data
 public class PythonResponse {
     private String reply;

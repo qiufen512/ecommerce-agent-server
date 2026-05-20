@@ -11,26 +11,26 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("聊天响应")
+@ApiModel("Chat Response")
 public class ChatResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("AI回复内容")
+    @ApiModelProperty("AI Reply Content")
     private String reply;
 
-    @ApiModelProperty("意图类型: refund/logistics/product/complaint/other")
+    @ApiModelProperty("Intent: refund/logistics/product/complaint/other")
     private String intent;
 
-    @ApiModelProperty("置信度 (0.0~1.0)")
+    @ApiModelProperty("Confidence (0.0~1.0)")
     private Float confidence;
 
-    @ApiModelProperty("会话ID")
+    @ApiModelProperty("Session ID")
     private String sessionId;
 
-    @ApiModelProperty("是否需要人工介入")
+    @ApiModelProperty("Whether human intervention is needed")
     private Boolean humanFlag;
 
-    @ApiModelProperty("合规检查结果")
+    @ApiModelProperty("Compliance Check Result")
     private ComplianceCheckVO complianceCheck;
 }

@@ -9,21 +9,21 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 创建会话请求 VO
+ * Create Session Request VO
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("创建会话请求")
+@ApiModel("Create Session Request")
 public class CsSessionCreateVO extends BaseVO {
 
-    @ApiModelProperty(value = "会话唯一ID（UUID）", required = true, example = "session_001")
-    @NotBlank(message = "会话ID不能为空")
+    @ApiModelProperty(value = "Session Unique ID (UUID)", required = true, example = "session_001")
+    @NotBlank(message = "Session ID must not be empty")
     private String sessionId;
 
-    @ApiModelProperty(value = "用户ID", required = true, example = "user123")
-    @NotBlank(message = "用户ID不能为空")
+    @ApiModelProperty(value = "User ID", required = true, example = "user123")
+    @NotBlank(message = "User ID must not be empty")
     private String userId;
 
-    @ApiModelProperty(value = "入口：web/app/mini", example = "web")
+    @ApiModelProperty(value = "Channel: web/app/mini", example = "web")
     private String channel;
 }

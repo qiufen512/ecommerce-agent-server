@@ -4,14 +4,14 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * 聊天状态枚举
+ * Chat status enum
  */
 public enum ChatStatus {
 
-    SUCCESS("success", "处理成功"),
-    PENDING("pending", "处理中"),
-    FAILED("failed", "处理失败"),
-    HUMAN_REQUIRED("human_required", "需要人工介入");
+    SUCCESS("success", "Success"),
+    PENDING("pending", "Pending"),
+    FAILED("failed", "Failed"),
+    HUMAN_REQUIRED("human_required", "Human Intervention Required");
 
     @EnumValue
     private final String code;

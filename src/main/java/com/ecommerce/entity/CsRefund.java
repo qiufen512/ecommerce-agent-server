@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 退款记录实体
+ * Refund record entity
  */
 @Data
 @TableName("cs_refund")

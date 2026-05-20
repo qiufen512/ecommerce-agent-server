@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 对话历史服务实现
+ * Chat History Service Implementation
  */
 @Slf4j
 @Service

@@ -13,44 +13,44 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("退款响应")
+@ApiModel("Refund Response")
 public class CsRefundResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty("Primary Key ID")
     private Long id;
 
-    @ApiModelProperty("退款单号")
+    @ApiModelProperty("Refund Number")
     private String refundNo;
 
-    @ApiModelProperty("关联订单号")
+    @ApiModelProperty("Related Order Number")
     private String orderNo;
 
-    @ApiModelProperty("用户ID")
+    @ApiModelProperty("User ID")
     private String userId;
 
-    @ApiModelProperty("退款金额")
+    @ApiModelProperty("Refund Amount")
     private BigDecimal refundAmount;
 
-    @ApiModelProperty("状态: 0=待审核 1=已通过 2=已拒绝 3=退款中 4=已完成 5=已取消")
+    @ApiModelProperty("Status: 0=Pending 1=Approved 2=Rejected 3=Processing 4=Completed 5=Cancelled")
     private Integer status;
 
-    @ApiModelProperty("退款原因")
+    @ApiModelProperty("Refund Reason")
     private String reason;
 
-    @ApiModelProperty("拒绝原因")
+    @ApiModelProperty("Rejection Reason")
     private String rejectReason;
 
-    @ApiModelProperty("申请时间")
+    @ApiModelProperty("Applied At")
     private LocalDateTime createdAt;
 
-    @ApiModelProperty("更新时间")
+    @ApiModelProperty("Updated At")
     private LocalDateTime updatedAt;
 
-    @ApiModelProperty("审核通过时间")
+    @ApiModelProperty("Approved At")
     private LocalDateTime approvedAt;
 
-    @ApiModelProperty("退款完成时间")
+    @ApiModelProperty("Completed At")
     private LocalDateTime completedAt;
 }

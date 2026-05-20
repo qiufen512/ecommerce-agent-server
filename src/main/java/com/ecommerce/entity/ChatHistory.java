@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 对话历史记录实体
+ * Chat history entity
  */
 @Data
 @TableName("chat_history")

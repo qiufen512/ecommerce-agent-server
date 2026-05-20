@@ -23,9 +23,9 @@ import java.util.*;
 import javax.validation.Valid;
 
 /**
- * FAQ知识库控制器
+ * FAQ Knowledge Base Controller
  */
-@Api(tags = "FAQ知识库")
+@Api(tags = "FAQ Knowledge Base")
 @RestController
 @RequestMapping("/api/faq")
 @RequiredArgsConstructor
@@ -34,18 +34,18 @@ public class FaqKnowledgeController {
 
     private final FaqKnowledgeService faqService;
 
-    /** 创建FAQ条目 */
-    @ApiOperation("创建FAQ条目")
+    /** Create FAQ Entry */
+    @ApiOperation("Create FAQ Entry")
     @PostMapping
     public Response create(@Valid @RequestBody FaqKnowledgeCreateVO vo) {
         FaqKnowledge faq = new FaqKnowledge();
         BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.save(faq);
-        return success ? Response.success() : Response.fail("创建FAQ失败");
+        return success ? Response.success() : Response.fail("Failed to create FAQ");
     }
 
-    /** 批量创建FAQ条目 */
-    @ApiOperation("批量创建FAQ条目")
+    /** Batch Create FAQ Entries */
+    @ApiOperation("Batch Create FAQ Entries")
     @PostMapping("/batch")
     public Response createBatch(@RequestBody List<FaqKnowledgeCreateVO> voList) {
         List<FaqKnowledge> faqList = new ArrayList<>();
@@ -55,26 +55,26 @@ public class FaqKnowledgeController {
             faqList.add(faq);
         }
         boolean success = faqService.saveBatch(faqList);
-        return success ? Response.success() : Response.fail("批量创建FAQ失败");
+        return success ? Response.success() : Response.fail("Failed to batch create FAQ");
     }
 
-    /** 按主键ID查询FAQ */
-    @ApiOperation("按主键ID查询FAQ")
+    /** Query FAQ by Primary Key ID */
+    @ApiOperation("Query FAQ by Primary Key ID")
     @GetMapping("/{id}")
-    public Response getById(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response getById(@ApiParam("Primary Key ID") @PathVariable Long id) {
         FaqKnowledge faq = faqService.getById(id);
         if (faq != null) {
             FaqKnowledgeResponseVO vo = new FaqKnowledgeResponseVO();
             BeanUtils.copyProperties(faq, vo);
             return Response.success(vo);
         }
-        return Response.notFound("FAQ不存在: " + id);
+        return Response.notFound("FAQ not found: " + id);
     }
 
-    /** 按分类查询FAQ列表（按优先级降倒） */
-    @ApiOperation("按分类查询FAQ列表")
+    /** Query FAQ List by Category (Descending by Priority) */
+    @ApiOperation("Query FAQ List by Category")
     @GetMapping("/category/{category}")
-    public Response listByCategory(@ApiParam("分类") @PathVariable String category) {
+    public Response listByCategory(@ApiParam("Category") @PathVariable String category) {
         List<FaqKnowledge> list = faqService.list(
                 new LambdaQueryWrapper<FaqKnowledge>()
                         .eq(FaqKnowledge::getCategory, category)
@@ -87,11 +87,11 @@ public class FaqKnowledgeController {
         return Response.success(voList);
     }
 
-    /** 分页查询FAQ列表 */
-    @ApiOperation("分页查询FAQ列表")
+    /** Paged Query of FAQ List */
+    @ApiOperation("Paged Query of FAQ List")
     @GetMapping("/page")
-    public Response page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                           @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+    public Response page(@ApiParam("Current Page") @RequestParam(defaultValue = "1") Integer current,
+                                           @ApiParam("Page Size") @RequestParam(defaultValue = "10") Integer size,
                                            FaqKnowledgeQueryVO queryVO) {
         LambdaQueryWrapper<FaqKnowledge> wrapper = new LambdaQueryWrapper<>();
         if (queryVO.getQuestion() != null) {
@@ -115,21 +115,21 @@ public class FaqKnowledgeController {
         return Response.success(voPage);
     }
 
-    /** 更新FAQ条目 */
-    @ApiOperation("更新FAQ条目")
+    /** Update FAQ Entry */
+    @ApiOperation("Update FAQ Entry")
     @PutMapping
     public Response update(@Valid @RequestBody FaqKnowledgeUpdateVO vo) {
         FaqKnowledge faq = new FaqKnowledge();
         BeanUtils.copyProperties(vo, faq);
         boolean success = faqService.updateById(faq);
-        return success ? Response.success() : Response.fail("更新FAQ失败");
+        return success ? Response.success() : Response.fail("Failed to update FAQ");
     }
 
-    /** 删除FAQ条目 */
-    @ApiOperation("删除FAQ条目")
+    /** Delete FAQ Entry */
+    @ApiOperation("Delete FAQ Entry")
     @DeleteMapping("/{id}")
-    public Response delete(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response delete(@ApiParam("Primary Key ID") @PathVariable Long id) {
         boolean success = faqService.removeById(id);
-        return success ? Response.success() : Response.fail("删除FAQ失败");
+        return success ? Response.success() : Response.fail("Failed to delete FAQ");
     }
 }

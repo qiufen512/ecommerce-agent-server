@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 聊天消息 VO
+ * Chat Message VO
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("聊天消息")
+@ApiModel("Chat Message")
 public class ChatMessageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("角色: user/agent")
+    @ApiModelProperty("Role: user/agent")
     private String role;
 
-    @ApiModelProperty("消息内容")
+    @ApiModelProperty("Message Content")
     private String content;
 }

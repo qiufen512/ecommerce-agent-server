@@ -12,29 +12,29 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("FAQ响应")
+@ApiModel("FAQ Response")
 public class FaqKnowledgeResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty("Primary Key ID")
     private Long id;
 
-    @ApiModelProperty("标准问题")
+    @ApiModelProperty("Standard Question")
     private String question;
 
-    @ApiModelProperty("标准答案")
+    @ApiModelProperty("Standard Answer")
     private String answer;
 
-    @ApiModelProperty("分类: refund/logistics/product/complaint/other")
+    @ApiModelProperty("Category: refund/logistics/product/complaint/other")
     private String category;
 
-    @ApiModelProperty("优先级，数字越大越优先")
+    @ApiModelProperty("Priority (higher value = higher priority)")
     private Integer priority;
 
-    @ApiModelProperty("创建时间")
+    @ApiModelProperty("Created At")
     private LocalDateTime createdAt;
 
-    @ApiModelProperty("更新时间")
+    @ApiModelProperty("Updated At")
     private LocalDateTime updatedAt;
 }

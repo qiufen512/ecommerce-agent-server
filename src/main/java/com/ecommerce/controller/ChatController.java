@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 聊天控制器
+ * Chat Controller
  */
 @Slf4j
-@Api(tags = "智能客服聊天")
+@Api(tags = "AI Customer Service Chat")
 @RestController
 @RequestMapping("/api/chat")
 @RequiredArgsConstructor
@@ -26,15 +26,15 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @ApiOperation("发送消息获取AI回复")
+    @ApiOperation("Send Message to Get AI Reply")
     @PostMapping
     public Response chat(@Valid @RequestBody ChatRequestVO request) {
-        log.info("收到聊天请求 - sessionId: {}, userId: {}, message: {}",
+        log.info("Received chat request - sessionId: {}, userId: {}, message: {}",
                 request.getSessionId(), request.getUserId(), request.getMessage());
 
         ChatResponseVO response = chatService.processMessage(request);
 
-        log.info("聊天处理完成 - sessionId: {}, intent: {}, confidence: {}, humanFlag: {}",
+        log.info("Chat processing completed - sessionId: {}, intent: {}, confidence: {}, humanFlag: {}",
                 response.getSessionId(), response.getIntent(), response.getConfidence(), response.getHumanFlag());
 
         return Response.success(response);

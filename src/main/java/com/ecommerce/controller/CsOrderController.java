@@ -22,9 +22,9 @@ import java.util.*;
 import javax.validation.Valid;
 
 /**
- * 客户订单控制器
+ * Customer Order Controller
  */
-@Api(tags = "订单管理")
+@Api(tags = "Order Management")
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
@@ -33,43 +33,43 @@ public class CsOrderController {
 
     private final CsOrderService orderService;
 
-    /** 创建订单 */
-    @ApiOperation("创建订单")
+    /** Create Order */
+    @ApiOperation("Create Order")
     @PostMapping
     public Response create(@Valid @RequestBody CsOrderCreateVO vo) {
         CsOrder order = new CsOrder();
         BeanUtils.copyProperties(vo, order);
         boolean success = orderService.save(order);
-        return success ? Response.success() : Response.fail("创建订单失败");
+        return success ? Response.success() : Response.fail("Failed to create order");
     }
 
-    /** 按订单号查询订单 */
-    @ApiOperation("按订单号查询订单")
+    /** Query Order by Order Number */
+    @ApiOperation("Query Order by Order Number")
     @GetMapping("/{orderNo}")
-    public Response getByOrderNo(@ApiParam("订单号") @PathVariable String orderNo) {
+    public Response getByOrderNo(@ApiParam("Order Number") @PathVariable String orderNo) {
         CsOrder order = orderService.getByOrderNoOrThrow(orderNo);
         CsOrderResponseVO vo = new CsOrderResponseVO();
         BeanUtils.copyProperties(order, vo);
         return Response.success(vo);
     }
 
-    /** 按主键ID查询订单 */
-    @ApiOperation("按主键ID查询订单")
+    /** Query Order by Primary Key ID */
+    @ApiOperation("Query Order by Primary Key ID")
     @GetMapping("/id/{id}")
-    public Response getById(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response getById(@ApiParam("Primary Key ID") @PathVariable Long id) {
         CsOrder order = orderService.getById(id);
         if (order != null) {
             CsOrderResponseVO vo = new CsOrderResponseVO();
             BeanUtils.copyProperties(order, vo);
             return Response.success(vo);
         }
-        return Response.notFound("订单不存在: " + id);
+        return Response.notFound("Order not found: " + id);
     }
 
-    /** 按用户ID查询订单列表 */
-    @ApiOperation("按用户ID查询订单列表")
+    /** Query Order List by User ID */
+    @ApiOperation("Query Order List by User ID")
     @GetMapping("/user/{userId}")
-    public Response listByUserId(@ApiParam("用户ID") @PathVariable String userId) {
+    public Response listByUserId(@ApiParam("User ID") @PathVariable String userId) {
         List<CsOrder> list = orderService.list(
                 new LambdaQueryWrapper<CsOrder>().eq(CsOrder::getUserId, userId));
         List<CsOrderResponseVO> voList = list.stream().map(order -> {
@@ -80,11 +80,11 @@ public class CsOrderController {
         return Response.success(voList);
     }
 
-    /** 分页查询订单列表 */
-    @ApiOperation("分页查询订单列表")
+    /** Paginated Query Order List */
+    @ApiOperation("Paginated Query Order List")
     @GetMapping("/page")
-    public PageResponse page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+    public PageResponse page(@ApiParam("Current Page") @RequestParam(defaultValue = "1") Integer current,
+                                      @ApiParam("Page Size") @RequestParam(defaultValue = "10") Integer size,
                                       CsOrderQueryVO queryVO) {
         LambdaQueryWrapper<CsOrder> wrapper = new LambdaQueryWrapper<>();
         if (queryVO.getOrderNo() != null) {
@@ -108,21 +108,21 @@ public class CsOrderController {
         return PageResponse.success(page, voList);
     }
 
-    /** 更新订单 */
-    @ApiOperation("更新订单")
+    /** Update Order */
+    @ApiOperation("Update Order")
     @PutMapping
     public Response update(@Valid @RequestBody CsOrderUpdateVO vo) {
         CsOrder order = new CsOrder();
         BeanUtils.copyProperties(vo, order);
         boolean success = orderService.updateById(order);
-        return success ? Response.success() : Response.fail("更新订单失败");
+        return success ? Response.success() : Response.fail("Failed to update order");
     }
 
-    /** 删除订单 */
-    @ApiOperation("删除订单")
+    /** Delete Order */
+    @ApiOperation("Delete Order")
     @DeleteMapping("/id/{id}")
-    public Response delete(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response delete(@ApiParam("Primary Key ID") @PathVariable Long id) {
         boolean success = orderService.removeById(id);
-        return success ? Response.success() : Response.fail("删除订单失败");
+        return success ? Response.success() : Response.fail("Failed to delete order");
     }
 }

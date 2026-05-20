@@ -5,21 +5,21 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 订单查询请求 VO
+ * Order Query Request VO
  */
 @Data
-@ApiModel("订单查询请求")
+@ApiModel("Order Query Request")
 public class CsOrderQueryVO {
 
-    @ApiModelProperty(value = "订单号", example = "TEST2025042201")
+    @ApiModelProperty(value = "Order Number", example = "TEST2025042201")
     private String orderNo;
 
-    @ApiModelProperty(value = "用户ID", example = "user123")
+    @ApiModelProperty(value = "User ID", example = "user123")
     private String userId;
 
-    @ApiModelProperty(value = "订单状态", example = "delivered")
+    @ApiModelProperty(value = "Order Status", example = "delivered")
     private String status;
 
-    @ApiModelProperty(value = "物流单号", example = "SF1234567890")
+    @ApiModelProperty(value = "Logistics Number", example = "SF1234567890")
     private String logisticsNo;
 }

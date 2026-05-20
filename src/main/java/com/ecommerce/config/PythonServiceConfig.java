@@ -7,7 +7,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Python 服务配置
+ * Python service configuration
  */
 @Configuration
 public class PythonServiceConfig {

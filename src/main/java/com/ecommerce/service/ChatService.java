@@ -4,15 +4,15 @@ import com.ecommerce.model.vo.chat.ChatRequestVO;
 import com.ecommerce.model.vo.chat.ChatResponseVO;
 
 /**
- * 聊天服务接口
+ * Chat Service Interface
  */
 public interface ChatService {
 
     /**
-     * 处理用户消息
+     * Process user message
      *
-     * @param request 聊天请求
-     * @return 聊天响应
+     * @param request Chat request
+     * @return Chat response
      */
     ChatResponseVO processMessage(ChatRequestVO request);
 }

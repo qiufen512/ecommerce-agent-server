@@ -4,7 +4,7 @@ import com.ecommerce.enums.ErrorCode;
 import lombok.Getter;
 
 /**
- * Python 服务不可用异常
+ * Python Service Unavailable Exception
  */
 @Getter
 public class PythonServiceException extends RuntimeException {

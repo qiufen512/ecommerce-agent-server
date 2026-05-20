@@ -7,20 +7,20 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 发起退款申请请求 VO
+ * Submit Refund Application Request VO
  */
 @Data
-@ApiModel("发起退款申请请求")
+@ApiModel("Submit Refund Application Request")
 public class CsRefundApplyVO {
 
-    @ApiModelProperty(value = "订单号", required = true, example = "TEST2025042201")
-    @NotBlank(message = "订单号不能为空")
+    @ApiModelProperty(value = "Order Number", required = true, example = "TEST2025042201")
+    @NotBlank(message = "Order number must not be empty")
     private String orderNo;
 
-    @ApiModelProperty(value = "用户ID", required = true, example = "user123")
-    @NotBlank(message = "用户ID不能为空")
+    @ApiModelProperty(value = "User ID", required = true, example = "user123")
+    @NotBlank(message = "User ID must not be empty")
     private String userId;
 
-    @ApiModelProperty(value = "退款原因", example = "不想要了")
+    @ApiModelProperty(value = "Refund Reason", example = "No longer needed")
     private String reason;
 }

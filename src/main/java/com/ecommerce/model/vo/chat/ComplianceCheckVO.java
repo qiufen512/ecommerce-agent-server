@@ -10,19 +10,19 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 合规检查结果 VO
+ * Compliance Check Result VO
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("合规检查结果")
+@ApiModel("Compliance Check Result")
 public class ComplianceCheckVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("是否通过合规检查")
+    @ApiModelProperty("Whether compliance check passed")
     private Boolean pass;
 
-    @ApiModelProperty("风险项列表")
+    @ApiModelProperty("Risk item list")
     private List<String> risks;
 }

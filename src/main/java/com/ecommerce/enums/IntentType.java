@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * 意图类型枚举
+ * Intent type enum
  */
 public enum IntentType {
 
-    REFUND("refund", "退款"),
-    LOGISTICS("logistics", "物流"),
-    PRODUCT("product", "商品"),
-    COMPLAINT("complaint", "投诉"),
-    OTHER("other", "其他");
+    REFUND("refund", "Refund"),
+    LOGISTICS("logistics", "Logistics"),
+    PRODUCT("product", "Product"),
+    COMPLAINT("complaint", "Complaint"),
+    OTHER("other", "Other");
 
     @EnumValue
     private final String code;

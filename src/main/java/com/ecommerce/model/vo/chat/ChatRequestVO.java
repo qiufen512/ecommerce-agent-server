@@ -10,25 +10,25 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 聊天请求 VO
+ * Chat Request VO
  */
 @Data
-@ApiModel("聊天请求")
+@ApiModel("Chat Request")
 public class ChatRequestVO {
 
-    @ApiModelProperty(value = "会话ID", required = true, example = "session_001")
-    @NotBlank(message = "会话ID不能为空")
+    @ApiModelProperty(value = "Session ID", required = true, example = "session_001")
+    @NotBlank(message = "Session ID must not be empty")
     private String sessionId;
 
-    @ApiModelProperty(value = "用户ID", required = true, example = "user123")
-    @NotBlank(message = "用户ID不能为空")
+    @ApiModelProperty(value = "User ID", required = true, example = "user123")
+    @NotBlank(message = "User ID must not be empty")
     private String userId;
 
-    @ApiModelProperty(value = "用户消息", required = true, example = "查询订单TEST2025042201")
-    @NotBlank(message = "消息内容不能为空")
+    @ApiModelProperty(value = "User Message", required = true, example = "Query order TEST2025042201")
+    @NotBlank(message = "Message content must not be empty")
     private String message;
 
-    @ApiModelProperty(value = "历史消息（可选）", notes = "多轮对话时携带上下文")
+    @ApiModelProperty(value = "History Messages (optional)", notes = "Context for multi-turn conversations")
     @Valid
     private List<ChatMessageVO> history;
 }

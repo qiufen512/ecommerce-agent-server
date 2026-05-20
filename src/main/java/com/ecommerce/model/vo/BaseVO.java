@@ -9,22 +9,22 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * VO 基类
- * 统一管理 VO 通用字段
+ * Base VO
+ * Common fields for all VOs
  */
 @Data
-@ApiModel("VO基类")
+@ApiModel("Base VO")
 public class BaseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 创建时间 */
-    @ApiModelProperty("创建时间")
+    /** Created At */
+    @ApiModelProperty("Created At")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    /** 更新时间 */
-    @ApiModelProperty("更新时间")
+    /** Updated At */
+    @ApiModelProperty("Updated At")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 }

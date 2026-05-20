@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecommerce.entity.CsTicket;
 
 /**
- * 工单服务接口
+ * Ticket Service Interface
  */
 public interface CsTicketService extends IService<CsTicket> {
 }

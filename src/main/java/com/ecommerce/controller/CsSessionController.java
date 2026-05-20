@@ -22,9 +22,9 @@ import java.util.*;
 import javax.validation.Valid;
 
 /**
- * 客服会话控制器
+ * Customer Service Session Controller
  */
-@Api(tags = "会话管理")
+@Api(tags = "Session Management")
 @RestController
 @RequestMapping("/api/session")
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ public class CsSessionController {
 
     private final CsSessionService sessionService;
 
-    /** 创建会话 */
-    @ApiOperation("创建会话")
+    /** Create Session */
+    @ApiOperation("Create Session")
     @PostMapping
     public Response create(@Valid @RequestBody CsSessionCreateVO vo) {
         CsSession session = new CsSession();
@@ -45,13 +45,13 @@ public class CsSessionController {
             BeanUtils.copyProperties(session, responseVO);
             return Response.success(responseVO);
         }
-        return Response.fail("创建会话失败");
+        return Response.fail("Failed to create session");
     }
 
-    /** 按sessionId查询会话 */
-    @ApiOperation("按会话ID查询")
+    /** Query Session by Session ID */
+    @ApiOperation("Query by Session ID")
     @GetMapping("/{sessionId}")
-    public Response getBySessionId(@ApiParam("会话ID") @PathVariable String sessionId) {
+    public Response getBySessionId(@ApiParam("Session ID") @PathVariable String sessionId) {
         CsSession session = sessionService.getOne(
                 new LambdaQueryWrapper<CsSession>().eq(CsSession::getSessionId, sessionId));
         if (session != null) {
@@ -59,27 +59,27 @@ public class CsSessionController {
             BeanUtils.copyProperties(session, vo);
             return Response.success(vo);
         }
-        return Response.notFound("会话不存在: " + sessionId);
+        return Response.notFound("Session not found: " + sessionId);
     }
 
-    /** 按主键ID查询会话 */
-    @ApiOperation("按主键ID查询会话")
+    /** Query Session by Primary Key ID */
+    @ApiOperation("Query Session by Primary Key ID")
     @GetMapping("/id/{id}")
-    public Response getById(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response getById(@ApiParam("Primary Key ID") @PathVariable Long id) {
         CsSession session = sessionService.getById(id);
         if (session != null) {
             CsSessionResponseVO vo = new CsSessionResponseVO();
             BeanUtils.copyProperties(session, vo);
             return Response.success(vo);
         }
-        return Response.notFound("会话不存在: " + id);
+        return Response.notFound("Session not found: " + id);
     }
 
-    /** 分页查询会话列表 */
-    @ApiOperation("分页查询会话列表")
+    /** Paged Query of Session List */
+    @ApiOperation("Paged Query of Session List")
     @GetMapping("/page")
-    public PageResponse page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                        @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+    public PageResponse page(@ApiParam("Current Page") @RequestParam(defaultValue = "1") Integer current,
+                                        @ApiParam("Page Size") @RequestParam(defaultValue = "10") Integer size,
                                         CsSessionQueryVO queryVO) {
         LambdaQueryWrapper<CsSession> wrapper = new LambdaQueryWrapper<>();
         if (queryVO.getSessionId() != null) {
@@ -106,8 +106,8 @@ public class CsSessionController {
         return PageResponse.success(page, voList);
     }
 
-    /** 更新会话 */
-    @ApiOperation("更新会话")
+    /** Update Session */
+    @ApiOperation("Update Session")
     @PutMapping
     public Response update(@Valid @RequestBody CsSessionUpdateVO vo) {
         CsSession session = new CsSession();
@@ -121,14 +121,14 @@ public class CsSessionController {
                 return Response.success(responseVO);
             }
         }
-        return Response.fail("更新会话失败");
+        return Response.fail("Failed to update session");
     }
 
-    /** 删除会话 */
-    @ApiOperation("删除会话")
+    /** Delete Session */
+    @ApiOperation("Delete Session")
     @DeleteMapping("/id/{id}")
-    public Response delete(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response delete(@ApiParam("Primary Key ID") @PathVariable Long id) {
         boolean success = sessionService.removeById(id);
-        return success ? Response.success() : Response.fail("删除会话失败");
+        return success ? Response.success() : Response.fail("Failed to delete session");
     }
 }

@@ -7,33 +7,33 @@ import com.ecommerce.model.vo.chat.ChatMessageVO;
 import java.util.List;
 
 /**
- * 对话历史服务接口
+ * Chat History Service Interface
  */
 public interface ChatHistoryService extends IService<ChatHistory> {
 
     /**
-     * 保存用户消息
+     * Save user message
      *
-     * @param sessionId 会话ID
-     * @param message   消息内容
-     * @param intent    意图类型
+     * @param sessionId Session ID
+     * @param message   Message content
+     * @param intent    Intent type
      */
     void saveUserMessage(String sessionId, String message, String intent);
 
     /**
-     * 保存Agent回复
+     * Save agent reply
      *
-     * @param sessionId 会话ID
-     * @param reply     回复内容
+     * @param sessionId Session ID
+     * @param reply     Reply content
      */
     void saveAgentReply(String sessionId, String reply);
 
     /**
-     * 查询会话历史记录
+     * Query session chat history
      *
-     * @param sessionId 会话ID
-     * @param limit     限制条数
-     * @return 消息列表
+     * @param sessionId Session ID
+     * @param limit     Limit
+     * @return Message list
      */
     List<ChatMessageVO> getChatHistory(String sessionId, int limit);
 }

@@ -5,21 +5,21 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 退款查询请求 VO
+ * Refund Query Request VO
  */
 @Data
-@ApiModel("退款查询请求")
+@ApiModel("Refund Query Request")
 public class CsRefundQueryVO {
 
-    @ApiModelProperty(value = "退款单号", example = "REF20240422001")
+    @ApiModelProperty(value = "Refund Number", example = "REF20240422001")
     private String refundNo;
 
-    @ApiModelProperty(value = "订单号", example = "TEST2025042201")
+    @ApiModelProperty(value = "Order Number", example = "TEST2025042201")
     private String orderNo;
 
-    @ApiModelProperty(value = "用户ID", example = "user123")
+    @ApiModelProperty(value = "User ID", example = "user123")
     private String userId;
 
-    @ApiModelProperty(value = "退款状态：0=待审核 1=已通过 2=已拒绝 3=退款中 4=已完成 5=已取消", example = "0")
+    @ApiModelProperty(value = "Refund Status: 0=Pending 1=Approved 2=Rejected 3=Processing 4=Completed 5=Cancelled", example = "0")
     private Integer status;
 }

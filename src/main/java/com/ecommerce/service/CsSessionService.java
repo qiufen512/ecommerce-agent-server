@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ecommerce.entity.CsSession;
 
 /**
- * 客服会话服务接口
+ * CS Session Service Interface
  */
 public interface CsSessionService extends IService<CsSession> {
 }

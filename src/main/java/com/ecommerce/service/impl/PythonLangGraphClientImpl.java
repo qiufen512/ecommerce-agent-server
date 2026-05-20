@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Python LangGraph 服务客户端实现
+ * Python LangGraph Service Client Implementation
  */
 @Slf4j
 @Component
@@ -46,7 +46,7 @@ public class PythonLangGraphClientImpl implements PythonLangGraphClient {
             PythonRequest pythonRequest = convertToPythonRequest(request);
             HttpEntity<PythonRequest> entity = new HttpEntity<>(pythonRequest, headers);
 
-            log.info("调用Python服务 - URL: {}, sessionId: {}", url, request.getSessionId());
+            log.info("Calling Python service - URL: {}, sessionId: {}", url, request.getSessionId());
 
             ResponseEntity<PythonResponse> response = restTemplate.exchange(
                     url,
@@ -56,22 +56,22 @@ public class PythonLangGraphClientImpl implements PythonLangGraphClient {
             );
 
             long elapsed = System.currentTimeMillis() - startTime;
-            log.info("Python服务调用成功 - 耗时: {}ms, status: {}", elapsed, response.getStatusCode());
+            log.info("Python service call succeeded - elapsed: {}ms, status: {}", elapsed, response.getStatusCode());
 
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 return convertToChatResponseVO(response.getBody(), request.getSessionId());
             } else {
                 throw new PythonServiceException(ErrorCode.PYTHON_SERVICE_UNAVAILABLE.getCode(),
-                        "Python服务返回异常状态: " + response.getStatusCode());
+                        "Python service returned abnormal status: " + response.getStatusCode());
             }
 
         } catch (PythonServiceException e) {
             throw e;
         } catch (Exception e) {
             long elapsed = System.currentTimeMillis() - startTime;
-            log.error("Python服务调用失败 - 耗时: {}ms, error: {}", elapsed, e.getMessage());
+            log.error("Python service call failed - elapsed: {}ms, error: {}", elapsed, e.getMessage());
             throw new PythonServiceException(ErrorCode.PYTHON_SERVICE_UNAVAILABLE.getCode(),
-                    "Python服务不可用: " + e.getMessage());
+                    "Python service unavailable: " + e.getMessage());
         }
     }
 

@@ -22,9 +22,9 @@ import java.util.*;
 import javax.validation.Valid;
 
 /**
- * 工单管理控制器
+ * Ticket Management Controller
  */
-@Api(tags = "工单管理")
+@Api(tags = "Ticket Management")
 @RestController
 @RequestMapping("/api/ticket")
 @RequiredArgsConstructor
@@ -33,8 +33,8 @@ public class CsTicketController {
 
     private final CsTicketService ticketService;
 
-    /** 创建工单 */
-    @ApiOperation("创建工单")
+    /** Create Ticket */
+    @ApiOperation("Create Ticket")
     @PostMapping
     public Response create(@Valid @RequestBody CsTicketCreateVO vo) {
         CsTicket ticket = new CsTicket();
@@ -45,26 +45,26 @@ public class CsTicketController {
             BeanUtils.copyProperties(ticket, responseVO);
             return Response.success(responseVO);
         }
-        return Response.fail("创建工单失败");
+        return Response.fail("Failed to create ticket");
     }
 
-    /** 按主键ID查询工单 */
-    @ApiOperation("按主键ID查询工单")
+    /** Query Ticket by Primary Key ID */
+    @ApiOperation("Query Ticket by Primary Key ID")
     @GetMapping("/{id}")
-    public Response getById(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response getById(@ApiParam("Primary Key ID") @PathVariable Long id) {
         CsTicket ticket = ticketService.getById(id);
         if (ticket != null) {
             CsTicketResponseVO vo = new CsTicketResponseVO();
             BeanUtils.copyProperties(ticket, vo);
             return Response.success(vo);
         }
-        return Response.notFound("工单不存在: " + id);
+        return Response.notFound("Ticket not found: " + id);
     }
 
-    /** 按工单业务ID查询工单 */
-    @ApiOperation("按工单业务ID查询工单")
+    /** Query Ticket by Business Ticket ID */
+    @ApiOperation("Query Ticket by Business Ticket ID")
     @GetMapping("/ticketId/{ticketId}")
-    public Response getByTicketId(@ApiParam("工单业务ID") @PathVariable Long ticketId) {
+    public Response getByTicketId(@ApiParam("Business Ticket ID") @PathVariable Long ticketId) {
         CsTicket ticket = ticketService.getOne(
                 new LambdaQueryWrapper<CsTicket>().eq(CsTicket::getTicketId, ticketId));
         if (ticket != null) {
@@ -72,13 +72,13 @@ public class CsTicketController {
             BeanUtils.copyProperties(ticket, vo);
             return Response.success(vo);
         }
-        return Response.notFound("工单不存在: " + ticketId);
+        return Response.notFound("Ticket not found: " + ticketId);
     }
 
-    /** 按会话ID查询工单列表 */
-    @ApiOperation("按会话ID查询工单列表")
+    /** Query Ticket List by Session ID */
+    @ApiOperation("Query Ticket List by Session ID")
     @GetMapping("/session/{sessionId}")
-    public Response listBySessionId(@ApiParam("会话ID") @PathVariable String sessionId) {
+    public Response listBySessionId(@ApiParam("Session ID") @PathVariable String sessionId) {
         List<CsTicket> list = ticketService.list(
                 new LambdaQueryWrapper<CsTicket>().eq(CsTicket::getSessionId, sessionId));
         List<CsTicketResponseVO> voList = list.stream().map(ticket -> {
@@ -89,10 +89,10 @@ public class CsTicketController {
         return Response.success(voList);
     }
 
-    /** 按状态查询工单列表 */
-    @ApiOperation("按状态查询工单列表")
+    /** Query Ticket List by Status */
+    @ApiOperation("Query Ticket List by Status")
     @GetMapping("/status/{status}")
-    public Response listByStatus(@ApiParam("状态：0=待处理 1=处理中 2=已完成 3=已关闭") @PathVariable Integer status) {
+    public Response listByStatus(@ApiParam("Status: 0=Pending 1=In Progress 2=Completed 3=Closed") @PathVariable Integer status) {
         List<CsTicket> list = ticketService.list(
                 new LambdaQueryWrapper<CsTicket>().eq(CsTicket::getStatus, status));
         List<CsTicketResponseVO> voList = list.stream().map(ticket -> {
@@ -103,11 +103,11 @@ public class CsTicketController {
         return Response.success(voList);
     }
 
-    /** 分页查询工单列表 */
-    @ApiOperation("分页查询工单列表")
+    /** Paged Query of Ticket List */
+    @ApiOperation("Paged Query of Ticket List")
     @GetMapping("/page")
-    public PageResponse page(@ApiParam("当前页") @RequestParam(defaultValue = "1") Integer current,
-                                      @ApiParam("每页大小") @RequestParam(defaultValue = "10") Integer size,
+    public PageResponse page(@ApiParam("Current Page") @RequestParam(defaultValue = "1") Integer current,
+                                      @ApiParam("Page Size") @RequestParam(defaultValue = "10") Integer size,
                                       CsTicketQueryVO queryVO) {
         LambdaQueryWrapper<CsTicket> wrapper = new LambdaQueryWrapper<>();
         if (queryVO.getTicketId() != null) {
@@ -137,8 +137,8 @@ public class CsTicketController {
         return PageResponse.success(page, voList);
     }
 
-    /** 更新工单 */
-    @ApiOperation("更新工单")
+    /** Update Ticket */
+    @ApiOperation("Update Ticket")
     @PutMapping
     public Response update(@Valid @RequestBody CsTicketUpdateVO vo) {
         CsTicket ticket = new CsTicket();
@@ -152,42 +152,42 @@ public class CsTicketController {
                 return Response.success(responseVO);
             }
         }
-        return Response.fail("更新工单失败");
+        return Response.fail("Failed to update ticket");
     }
 
-    /** 删除工单 */
-    @ApiOperation("删除工单")
+    /** Delete Ticket */
+    @ApiOperation("Delete Ticket")
     @DeleteMapping("/{id}")
-    public Response delete(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response delete(@ApiParam("Primary Key ID") @PathVariable Long id) {
         boolean success = ticketService.removeById(id);
-        return success ? Response.success() : Response.fail("删除工单失败");
+        return success ? Response.success() : Response.fail("Failed to delete ticket");
     }
 
-    /** 人工接管工单 */
-    @ApiOperation("人工接管工单")
+    /** Human Takeover Ticket */
+    @ApiOperation("Human Takeover Ticket")
     @PostMapping("/takeover/{id}")
-    public Response takeover(@ApiParam("主键ID") @PathVariable Long id,
-                             @ApiParam("处理人ID") @RequestParam String handlerId) {
+    public Response takeover(@ApiParam("Primary Key ID") @PathVariable Long id,
+                             @ApiParam("Handler ID") @RequestParam String handlerId) {
         CsTicket ticket = ticketService.getById(id);
         if (ticket == null) {
-            return Response.notFound("工单不存在: " + id);
+            return Response.notFound("Ticket not found: " + id);
         }
         ticket.setHumanFlag(1);
-        ticket.setStatus(1); // 设置为处理中
+        ticket.setStatus(1); // Set to In Progress
         boolean success = ticketService.updateById(ticket);
-        return success ? Response.success() : Response.fail("接管失败");
+        return success ? Response.success() : Response.fail("Takeover failed");
     }
 
-    /** 关闭工单 */
-    @ApiOperation("关闭工单")
+    /** Close Ticket */
+    @ApiOperation("Close Ticket")
     @PostMapping("/close/{id}")
-    public Response close(@ApiParam("主键ID") @PathVariable Long id) {
+    public Response close(@ApiParam("Primary Key ID") @PathVariable Long id) {
         CsTicket ticket = ticketService.getById(id);
         if (ticket == null) {
-            return Response.notFound("工单不存在: " + id);
+            return Response.notFound("Ticket not found: " + id);
         }
-        ticket.setStatus(3); // 设置为已关闭
+        ticket.setStatus(3); // Set to Closed
         boolean success = ticketService.updateById(ticket);
-        return success ? Response.success() : Response.fail("关闭失败");
+        return success ? Response.success() : Response.fail("Close failed");
     }
 }

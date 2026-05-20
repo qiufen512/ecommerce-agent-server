@@ -5,7 +5,7 @@ import com.ecommerce.entity.CsTicket;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 工单Mapper接口
+ * Ticket Mapper Interface
  */
 @Mapper
 public interface CsTicketMapper extends BaseMapper<CsTicket> {

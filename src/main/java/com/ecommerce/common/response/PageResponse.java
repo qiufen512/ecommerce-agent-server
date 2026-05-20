@@ -7,28 +7,28 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 分页响应格式
+ * Paginated Response Format
  *
- * @param <T> 分页数据类型
+ * @param <T> Paginated Data Type
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PageResponse<T> extends Response<List<T>> {
 
-    /** 总记录数 */
+    /** Total Records */
     private long total = 0L;
 
-    /** 每页显示的记录数 */
+    /** Records Per Page */
     private long size = 10L;
 
-    /** 当前页码 */
+    /** Current Page Number */
     private long current;
 
-    /** 总页数 */
+    /** Total Pages */
     private long pages;
 
     /**
-     * 创建空分页响应
+     * Create Empty Paginated Response
      */
     public static <T> PageResponse<T> empty() {
         PageResponse<T> response = new PageResponse<>();
@@ -41,13 +41,13 @@ public class PageResponse<T> extends Response<List<T>> {
     }
 
     /**
-     * 从 MyBatis-Plus Page 对象创建分页响应
+     * Create Paginated Response from MyBatis-Plus Page Object
      *
-     * @param page MyBatis-Plus 分页对象
-     * @param data 转换后的 VO 列表
-     * @param <T> VO 类型
-     * @param <E> Entity 类型
-     * @return 分页响应
+     * @param page MyBatis-Plus Pagination Object
+     * @param data Converted VO List
+     * @param <T> VO Type
+     * @param <E> Entity Type
+     * @return Paginated Response
      */
     public static <T, E> PageResponse<T> success(Page<E> page, List<T> data) {
         PageResponse<T> response = new PageResponse<>();
@@ -60,14 +60,14 @@ public class PageResponse<T> extends Response<List<T>> {
     }
 
     /**
-     * 从分页参数创建分页响应
+     * Create Paginated Response from Pagination Parameters
      *
-     * @param data VO 列表
-     * @param current 当前页
-     * @param size 每页大小
-     * @param total 总记录数
-     * @param <T> VO 类型
-     * @return 分页响应
+     * @param data VO List
+     * @param current Current Page
+     * @param size Page Size
+     * @param total Total Records
+     * @param <T> VO Type
+     * @return Paginated Response
      */
     public static <T> PageResponse<T> success(List<T> data, long current, long size, long total) {
         PageResponse<T> response = new PageResponse<>();
@@ -75,7 +75,7 @@ public class PageResponse<T> extends Response<List<T>> {
         response.setTotal(total);
         response.setSize(size);
         response.setCurrent(current);
-        response.setPages((total + size - 1) / size); // 计算总页数
+        response.setPages((total + size - 1) / size); // Calculate total pages
         return response;
     }
 }

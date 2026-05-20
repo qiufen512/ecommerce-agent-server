@@ -13,38 +13,38 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("订单响应")
+@ApiModel("Order Response")
 public class CsOrderResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty("Primary Key ID")
     private Long id;
 
-    @ApiModelProperty("订单号")
+    @ApiModelProperty("Order Number")
     private String orderNo;
 
-    @ApiModelProperty("用户ID")
+    @ApiModelProperty("User ID")
     private String userId;
 
-    @ApiModelProperty("商品名称")
+    @ApiModelProperty("Product Name")
     private String productName;
 
-    @ApiModelProperty("订单金额")
+    @ApiModelProperty("Order Amount")
     private BigDecimal amount;
 
-    @ApiModelProperty("订单状态: pending/paid/shipped/delivered/refunded/cancelled")
+    @ApiModelProperty("Order Status: pending/paid/shipped/delivered/refunded/cancelled")
     private String status;
 
-    @ApiModelProperty("物流单号")
+    @ApiModelProperty("Logistics Number")
     private String logisticsNo;
 
-    @ApiModelProperty("物流状态")
+    @ApiModelProperty("Logistics Status")
     private String logisticsStatus;
 
-    @ApiModelProperty("创建时间")
+    @ApiModelProperty("Created At")
     private LocalDateTime createdAt;
 
-    @ApiModelProperty("更新时间")
+    @ApiModelProperty("Updated At")
     private LocalDateTime updatedAt;
 }

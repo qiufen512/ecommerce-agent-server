@@ -6,19 +6,19 @@ import com.ecommerce.entity.CsRefund;
 import java.math.BigDecimal;
 
 /**
- * 退款服务接口
+ * Refund Service Interface
  */
 public interface CsRefundService extends IService<CsRefund> {
 
-    /** 检查订单是否满足退款条件 */
+    /** Check if order meets refund conditions */
     boolean checkRefundEligibility(String orderNo, String userId);
 
-    /** 发起退款 */
+    /** Initiate refund */
     CsRefund applyRefund(String orderNo, String userId, String reason);
 
-    /** 审核退款 */
+    /** Approve refund */
     CsRefund approveRefund(String refundNo, boolean approved, String rejectReason);
 
-    /** 完成退款 */
+    /** Complete refund */
     CsRefund completeRefund(String refundNo);
 }

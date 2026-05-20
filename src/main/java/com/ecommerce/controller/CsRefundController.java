@@ -20,9 +20,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 /**
- * 退款控制器
+ * Refund Controller
  */
-@Api(tags = "退款管理")
+@Api(tags = "Refund Management")
 @RestController
 @RequestMapping("/api/refund")
 @RequiredArgsConstructor
@@ -31,17 +31,17 @@ public class CsRefundController {
 
     private final CsRefundService refundService;
 
-    /** 检查退款条件 */
-    @ApiOperation("检查退款资格")
+    /** Check Refund Eligibility */
+    @ApiOperation("Check Refund Eligibility")
     @GetMapping("/check")
-    public Response checkRefundEligibility(@ApiParam("订单号") @RequestParam String orderNo,
-                                           @ApiParam("用户ID") @RequestParam String userId) {
+    public Response checkRefundEligibility(@ApiParam("Order Number") @RequestParam String orderNo,
+                                           @ApiParam("User ID") @RequestParam String userId) {
         boolean eligible = refundService.checkRefundEligibility(orderNo, userId);
         return Response.success(eligible);
     }
 
-    /** 发起退款 */
-    @ApiOperation("发起退款申请")
+    /** Initiate Refund */
+    @ApiOperation("Apply for Refund")
     @PostMapping("/apply")
     public Response applyRefund(@Valid @RequestBody CsRefundApplyVO vo) {
         CsRefund refund = refundService.applyRefund(vo.getOrderNo(), vo.getUserId(), vo.getReason());
@@ -50,8 +50,8 @@ public class CsRefundController {
         return Response.success(responseVO);
     }
 
-    /** 审核退款 */
-    @ApiOperation("审核退款")
+    /** Approve Refund */
+    @ApiOperation("Approve Refund")
     @PostMapping("/approve")
     public Response approveRefund(@Valid @RequestBody CsRefundApproveVO vo) {
         CsRefund refund = refundService.approveRefund(vo.getRefundNo(), vo.getApproved(), vo.getRejectReason());
@@ -60,20 +60,20 @@ public class CsRefundController {
         return Response.success(responseVO);
     }
 
-    /** 完成退款 */
-    @ApiOperation("完成退款")
+    /** Complete Refund */
+    @ApiOperation("Complete Refund")
     @PostMapping("/complete")
-    public Response completeRefund(@ApiParam("退款单号") @RequestParam String refundNo) {
+    public Response completeRefund(@ApiParam("Refund Number") @RequestParam String refundNo) {
         CsRefund refund = refundService.completeRefund(refundNo);
         CsRefundResponseVO responseVO = new CsRefundResponseVO();
         BeanUtils.copyProperties(refund, responseVO);
         return Response.success(responseVO);
     }
 
-    /** 查询退款单 */
-    @ApiOperation("按退款单号查询")
+    /** Query Refund */
+    @ApiOperation("Query by Refund Number")
     @GetMapping("/{refundNo}")
-    public Response getByRefundNo(@ApiParam("退款单号") @PathVariable String refundNo) {
+    public Response getByRefundNo(@ApiParam("Refund Number") @PathVariable String refundNo) {
         CsRefund refund = refundService.getOne(
                 new LambdaQueryWrapper<CsRefund>().eq(CsRefund::getRefundNo, refundNo));
         if (refund != null) {
@@ -81,13 +81,13 @@ public class CsRefundController {
             BeanUtils.copyProperties(refund, responseVO);
             return Response.success(responseVO);
         }
-        return Response.notFound("退款单不存在: " + refundNo);
+        return Response.notFound("Refund not found: " + refundNo);
     }
 
-    /** 按订单号查询退款列表 */
-    @ApiOperation("按订单号查询退款列表")
+    /** Query Refund List by Order Number */
+    @ApiOperation("Query Refund List by Order Number")
     @GetMapping("/order/{orderNo}")
-    public Response listByOrderNo(@ApiParam("订单号") @PathVariable String orderNo) {
+    public Response listByOrderNo(@ApiParam("Order Number") @PathVariable String orderNo) {
         List<CsRefund> list = refundService.list(
                 new LambdaQueryWrapper<CsRefund>()
                         .eq(CsRefund::getOrderNo, orderNo)

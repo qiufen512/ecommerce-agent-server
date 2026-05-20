@@ -5,16 +5,16 @@ import com.ecommerce.model.vo.chat.ChatRequestVO;
 import com.ecommerce.model.vo.chat.ChatResponseVO;
 
 /**
- * Python LangGraph 服务客户端
+ * Python LangGraph Service Client
  */
 public interface PythonLangGraphClient {
 
     /**
-     * 调用 Python LangGraph 服务
+     * Call Python LangGraph service
      *
-     * @param request 聊天请求
-     * @return 聊天响应
-     * @throws PythonServiceException 服务不可用或超时
+     * @param request Chat request
+     * @return Chat response
+     * @throws PythonServiceException Service unavailable or timeout
      */
     ChatResponseVO callLangGraph(ChatRequestVO request) throws PythonServiceException;
 }

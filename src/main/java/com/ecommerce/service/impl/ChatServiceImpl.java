@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * 聊天服务实现
+ * Chat Service Implementation
  */
 @Slf4j
 @Service
@@ -25,14 +25,14 @@ public class ChatServiceImpl implements ChatService {
         try {
             return pythonClient.callLangGraph(request);
         } catch (PythonServiceException e) {
-            log.error("Python服务调用失败，返回降级响应: {}", e.getMessage());
+            log.error("Python service call failed, returning fallback response: {}", e.getMessage());
             return buildFallbackResponse(request);
         }
     }
 
     private ChatResponseVO buildFallbackResponse(ChatRequestVO request) {
         ChatResponseVO response = new ChatResponseVO();
-        response.setReply("服务暂时繁忙，请稍后重试或联系人工客服");
+        response.setReply("Service is temporarily busy, please try again later or contact customer service.");
         response.setIntent("other");
         response.setConfidence(0f);
         response.setSessionId(request.getSessionId());

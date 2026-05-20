@@ -12,38 +12,38 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("工单响应")
+@ApiModel("Ticket Response")
 public class CsTicketResponseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty("Primary Key ID")
     private Long id;
 
-    @ApiModelProperty("工单业务ID")
+    @ApiModelProperty("Ticket Business ID")
     private Long ticketId;
 
-    @ApiModelProperty("关联会话")
+    @ApiModelProperty("Related Session")
     private String sessionId;
 
-    @ApiModelProperty("意图: refund/logistic/product/complaint")
+    @ApiModelProperty("Intent: refund/logistics/product/complaint")
     private String intent;
 
-    @ApiModelProperty("关联订单号")
+    @ApiModelProperty("Related Order Number")
     private String orderNo;
 
-    @ApiModelProperty("状态: 0=待处理 1=处理中 2=已完成 3=已关闭")
+    @ApiModelProperty("Status: 0=Pending 1=Processing 2=Completed 3=Closed")
     private Integer status;
 
-    @ApiModelProperty("AI回复摘要")
+    @ApiModelProperty("AI Reply Summary")
     private String agentReply;
 
-    @ApiModelProperty("是否人工介入: 0=AI处理 1=人工介入")
+    @ApiModelProperty("Human Intervention: 0=AI 1=Human")
     private Integer humanFlag;
 
-    @ApiModelProperty("创建时间")
+    @ApiModelProperty("Created At")
     private LocalDateTime createdAt;
 
-    @ApiModelProperty("更新时间")
+    @ApiModelProperty("Updated At")
     private LocalDateTime updatedAt;
 }

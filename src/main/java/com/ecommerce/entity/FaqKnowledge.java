@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * FAQ知识库实体（Milvus降级备用/后台管理用）
+ * FAQ knowledge base entity (Milvus fallback / admin management)
  */
 @Data
 @TableName("faq_knowledge")

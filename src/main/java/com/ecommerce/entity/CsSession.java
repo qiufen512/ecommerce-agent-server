@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 客服会话实体
+ * CS session entity
  */
 @Data
 @TableName("cs_session")
